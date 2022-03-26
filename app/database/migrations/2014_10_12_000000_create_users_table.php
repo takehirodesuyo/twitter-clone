@@ -17,7 +17,6 @@ return new class extends Migration
             // increments:自動増分するカラムを作成
             $table->increments('id');
             // unique:重複がないか null commentってなんだ
-            $table->string('screen_name')->unique()->null()->comment('アカウント名');
             $table->string('name')->null()->comment('ユーザ名');
             $table->string('profile_image')->nullable()->comment('プロフィール画像');
             $table->string('email')->unique();

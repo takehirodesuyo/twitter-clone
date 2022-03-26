@@ -15,27 +15,34 @@ return new class extends Migration
     {
         Schema::create('comments', function (Blueprint $table) {
             $table->increments('id');
+            // commentはあとから分かりやすくするため。例) 男=1 女=2 
             $table->unsignedInteger('user_id')->comment('ユーザID');
             $table->unsignedInteger('tweet_id')->comment('ツイートID');
             $table->string('text')->comment('本文');
-            $table->softDeletes();
+            // DBからレコードを削除をする方法2種類 物理削除:直接DBから削除  論理削除: 消したことにする 例)Twitterのアカウント復旧
+            // 基本的に物理削除はしない。
+
+            // LaravelではこのsoftDeletes();で論理削除になる。
+            // $table->softDeletes();
+            // created_at deleted_atがtimestamp();
             $table->timestamps();
 
             $table->index('id');
             $table->index('user_id');
             $table->index('tweet_id');
+            
             // usersテーブル
-            $table->foreign('user_id')
-                ->references('id')
-                ->on('users')
-                ->onDelete('cascade')
-                ->onUpdate('cascade');
+            // $table->foreign('user_id')
+            //     ->references('id')
+            //     ->on('users')
+            //     ->onDelete('cascade')
+            //     ->onUpdate('cascade');
             // tweetsテーブル
-            $table->foreign('tweet_id')
-                ->references('id')
-                ->on('tweets')
-                ->onDelete('cascade')
-                ->onUpdate('cascade');
+            // $table->foreign('tweet_id')
+            //     ->references('id')
+            //     ->on('tweets')
+            //     ->onDelete('cascade')
+            //     ->onUpdate('cascade');
         });
     }
 
