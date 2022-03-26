@@ -26,6 +26,11 @@ class User extends Authenticatable
         'password'
     ];
 
+    public function getAllUsers(Int $user_id)
+    {
+        return $this->Where('id', '<>', $user_id)->paginate(5);
+    }
+
     /**
      * The attributes that should be hidden for serialization.
      *
