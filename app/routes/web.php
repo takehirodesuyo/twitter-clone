@@ -29,4 +29,8 @@ Route::group(['middleware' => 'auth'], function() {
     Route::resource('users', UsersController::class)->only([
         'index', 'show', 'edit', 'update'
     ]);
+
+    Route::get('users/{user}/follow', [App\Http\Controllers\UsersController::class, 'follow'])->name('follow');
+    Route::post('users/{user}/follow', [App\Http\Controllers\UsersController::class, 'follow'])->name('follow');
+    Route::delete('users/{user}/unfollow', [App\Http\Controllers\UsersController::class, 'unfollow'])->name('unfollow');
 });
