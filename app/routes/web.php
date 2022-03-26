@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+// この宣言しないとUsersControllerにアクセスできない
+use App\Http\Controllers\UsersController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,3 +22,11 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::group(['middleware' => 'auth'], function() {
+
+    // laravel8 の書き方
+    Route::resource('users', UsersController::class)->only([
+        'index', 'show', 'edit', 'update'
+    ]);
+});
