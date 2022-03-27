@@ -90,6 +90,14 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    public function edit(User $user)
+    {   
+        // 第一引数で、view指定 第二引数で変数を指定 この場合(User $user)ですべてのユーザー取得?
+        // メソッドインジェクションって何後で聞く
+        return view('users.edit', ['user' => $user]);
+    }
+
+    
     public function show(User $user, Tweet $tweet, Follower $follower)
     {
         $login_user = auth()->user();
@@ -119,9 +127,18 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+
+    public function update(Request $request, User $user)
     {
-        //
+        $data = $request->all();
+        $validator = Validator::make($data, [
+            'name'          => ['required', 'string', 'max:255'],
+            'email'         => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($user->id)]
+        ]);
+        $validator->validate();
+        $user->updateProfile($data);
+
+        return redirect('users/'.$user->id);
     }
 
     /**
