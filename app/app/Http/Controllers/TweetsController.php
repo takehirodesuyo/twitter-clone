@@ -38,7 +38,11 @@ class TweetsController extends Controller
      */
     public function create()
     {
-        //
+        $user = auth()->user();
+
+        return view('tweets.create', [
+            'user' => $user
+        ]);
     }
 
     /**
