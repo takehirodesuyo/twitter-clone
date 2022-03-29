@@ -112,9 +112,17 @@ class TweetsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Tweet $tweet)
     {
-        //
+        $data = $request->all();
+        $validator = Validator::make($data, [
+            'text' => ['required', 'string', 'max:140']
+        ]);
+
+        $validator->validate();
+        $tweet->tweetUpdate($tweet->id, $data);
+
+        return redirect('tweets');
     }
 
     /**
