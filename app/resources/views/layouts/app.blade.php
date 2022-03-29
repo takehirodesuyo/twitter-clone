@@ -52,6 +52,9 @@
                                 </li>
                             @endif
                         @else
+                            <li class="nav-item mr-5">
+                                <a href="{{ url('tweets/create') }}" class="btn btn-md btn-primary">ツイートする</a>
+                            </li>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }}
