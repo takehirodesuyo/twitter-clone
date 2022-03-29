@@ -59,4 +59,9 @@ class Tweet extends Model
 
         return;
     }
+
+    public function getEditTweet(Int $user_id, Int $tweet_id)
+    {
+        return $this->where('user_id', $user_id)->where('id', $tweet_id)->first();
+    }
 }
