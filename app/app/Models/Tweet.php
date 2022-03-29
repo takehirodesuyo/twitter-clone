@@ -25,4 +25,5 @@ class Tweet extends Model
     {
         return $this->hasMany(Comment::class);
     }
+    
 }

@@ -17,7 +17,7 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-    // ここなんなんだ
+    // 可変項目
     protected $fillable = [
         'screen_name',
         'name',

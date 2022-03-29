@@ -21,4 +21,5 @@ class FollowersTableSeeder extends Seeder
             ]);
         }
     }
+    
 }
