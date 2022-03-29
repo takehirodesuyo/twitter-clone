@@ -92,7 +92,7 @@ class UsersController extends Controller
      */
     public function edit(User $user)
     {   
-        // 第一引数で、view指定 第二引数で変数を指定 この場合(User $user)ですべてのユーザー取得?
+        // 第一引数で、view指定 第二引数で変数を指定 この場合(User $user)ですべてのユーザー取得?って思ったけと違うっぽい 取得するなら $tweets = Tweet::all();
         // メソッドインジェクションって何後で聞く
         return view('users.edit', ['user' => $user]);
     }
