@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-// この宣言しないとUsersControllerにアクセスできない
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\TweetsController;
 
@@ -26,7 +25,6 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::group(['middleware' => 'auth'], function() {
 
-    // laravel8 の書き方
     // ユーザー関連
     Route::resource('users', UsersController::class)->only([
         'index', 'show', 'edit', 'update'
@@ -37,7 +35,5 @@ Route::group(['middleware' => 'auth'], function() {
     Route::delete('users/{user}/unfollow', [App\Http\Controllers\UsersController::class, 'unfollow'])->name('unfollow');
 
     // ツイート関連
-    Route::resource('tweets', TweetsController::class)->only([
-        'index', 'create', 'store', 'edit', 'update', 'destroy'
-    ]);
+    Route::resource('tweets', TweetsController::class);
 });

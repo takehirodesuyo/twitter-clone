@@ -32,7 +32,7 @@ class Tweet extends Model
         // 第二引数がイコールの場合省略可能。なのでこの場合省略されている。oerderByでカラム並び替え。この場合、created_at カラムでDESCで降順という意味。
         return $this->where('user_id', $user_id)->orderBy('created_at', 'DESC')->paginate(50);
     }
-    // Intで配列の方を変換
+
     public function getTweetCount(Int $user_id)
     {
         return $this->where('user_id', $user_id)->count();
@@ -46,4 +46,8 @@ class Tweet extends Model
         return $this->whereIn('user_id', $follow_ids)->orderBy('created_at', 'DESC')->paginate(50);
     }
 
+    public function getTweet(Int $tweet_id)
+    {
+        return $this->with('user')->where('id', $tweet_id)->first();
+    }
 }
