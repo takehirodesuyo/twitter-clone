@@ -51,9 +51,18 @@ class TweetsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Tweet $tweet)
     {
-        //
+        $user = auth()->user();
+        $data = $request->all();
+        $validator = Validator::make($data, [
+            'text' => ['required', 'string', 'max:140']
+        ]);
+
+        $validator->validate();
+        $tweet->tweetStore($user->id, $data);
+
+        return redirect('tweets');
     }
 
     /**
