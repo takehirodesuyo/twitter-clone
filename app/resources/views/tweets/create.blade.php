@@ -8,6 +8,7 @@
                 <div class="card-header">Create</div>
 
                 <div class="card-body">
+                    
                     <form method="POST" action="{{ route('tweets.store') }}">
                         @csrf
 

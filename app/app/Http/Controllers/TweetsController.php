@@ -24,7 +24,6 @@ class TweetsController extends Controller
         $following_ids = $follow_ids->pluck('followed_id')->toArray();
 
         $timelines = $tweet->getTimelines($user->id, $following_ids);
-
         return view('tweets.index', [
             'user'      => $user,
             'timelines' => $timelines
@@ -61,7 +60,7 @@ class TweetsController extends Controller
 
         $validator->validate();
         $tweet->tweetStore($user->id, $data);
-
+        
         return redirect('tweets');
     }
 

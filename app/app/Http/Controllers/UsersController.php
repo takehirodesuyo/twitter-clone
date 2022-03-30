@@ -19,7 +19,6 @@ class UsersController extends Controller
      */
     public function index(User $user)
     {
-        //インジェクションって何？
         $all_users = $user->getAllUsers(auth()->user()->id);
 
         return view('users.index', [
