@@ -33,4 +33,5 @@ class Follower extends Model
         
         return $this->where('following_id', $user_id)->get('followed_id');
     }
+
 }

@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\TweetsController;
 use App\Http\Controllers\CommentsController;
+use App\Http\Controllers\FavoritesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,5 +41,8 @@ Route::group(['middleware' => 'auth'], function() {
 
     // コメント関連
     Route::resource('comments', CommentsController::class);
+
+    // いいね関連
+    Route::resource('favorites', FavoritesController::class);
 
 });
