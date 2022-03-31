@@ -19,7 +19,7 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
-<body>
+<body class="bg-secondary">
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
@@ -54,6 +54,7 @@
                         @else
                             <li class="nav-item mr-5">
                                 <a href="{{ url('tweets/create') }}" class="btn btn-md btn-primary">ツイートする</a>
+                                <a href="{{ url('users') }}" class="btn btn-primary">ユーザ一覧</a>
                             </li>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
