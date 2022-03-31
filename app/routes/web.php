@@ -36,4 +36,9 @@ Route::group(['middleware' => 'auth'], function() {
 
     // ツイート関連
     Route::resource('tweets', TweetsController::class);
+
+    // コメント関連
+    Route::resource('comments', CommentsController::class)->only([
+        'store'
+    ]);
 });
