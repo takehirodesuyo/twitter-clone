@@ -77,7 +77,7 @@
                         </div>
                         @if ($timeline->user->id === Auth::user()->id)
                             <div class="mr-3 d-flex align-items-center btn">
-                                <form method="POST" action="{{ url('tweets/' .$timeline->id) }}" class="mb-0">
+                                <form method="POST" action="{{ url('tweets/' .$timeline->id) }}" class="mb-0" onSubmit="return ThroughDblClick();">
                                     @csrf
                                     @method('DELETE')
                                             

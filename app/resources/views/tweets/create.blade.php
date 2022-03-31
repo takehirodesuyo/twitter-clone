@@ -1,5 +1,17 @@
 @extends('layouts.app')
+<script>
+    var dblClickFlag = null;
 
+    function ThroughDblClick() {
+        // ダブルクリック防止
+        if (dblClickFlag == null) {
+            dblClickFlag = 1;
+            return true;
+            } else {
+                return false;
+                    }
+            }
+</script>
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
@@ -9,7 +21,7 @@
 
                 <div class="card-body">
                     
-                    <form method="POST" action="{{ route('tweets.store') }}">
+                    <form method="POST" action="{{ route('tweets.store') }}" onSubmit="return ThroughDblClick();">
                         @csrf
 
                         <div class="form-group row mb-0">

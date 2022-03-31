@@ -1,5 +1,19 @@
 @extends('layouts.app')
 
+<script>
+    var dblClickFlag = null;
+
+    function ThroughDblClick() {
+        // ダブルクリック防止
+        if (dblClickFlag == null) {
+            dblClickFlag = 1;
+            return true;
+            } else {
+                return false;
+                    }
+            }
+</script>
+
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
@@ -75,7 +89,7 @@
                                     <a href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <i class="fas fa-ellipsis-v fa-fw"></i>
                                     </a>
-                                        <form method="POST" action="{{ url('tweets/' .$timeline->id) }}" class="mb-0">
+                                        <form method="POST" action="{{ url('tweets/' .$timeline->id) }}" class="mb-0" onSubmit="return ThroughDblClick();">
                                             @csrf
                                             @method('DELETE')
                                             
