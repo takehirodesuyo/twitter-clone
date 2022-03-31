@@ -65,35 +65,35 @@
                     <div class="card">
                         <div class="card-haeder p-3 w-100 d-flex">
                             <div class="ml-2 d-flex flex-column">
-                                <a href="{{ url('users/' .$timeline->user->id) }}" class="text-secondary">{{ $timeline->user->name }}</a>
+                                <a href="{{ url('users/' .$timeline->id) }}" class="text-secondary">{{ $timeline->user->name }}</a>
                                 <p class="mb-0 text-secondary">{{ $timeline->created_at->format('Y年m月d日 H:i') }}</p>
                                 <div class="card-body">
                                     {!! nl2br(e($timeline->text)) !!}
                                 </div>
                             </div>
                         </div>
-                            @if ($timeline->user->id === Auth::user()->id)
-                                <div class="mr-3 d-flex align-items-center">
-                                    <a href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="fas fa-ellipsis-v fa-fw"></i>
-                                    </a>
-                                        <form method="POST" action="{{ url('tweets/' .$timeline->id) }}" class="mb-0">
-                                            @csrf
-                                            @method('DELETE')
+                        <div class="mr-3 d-flex align-items-center btn">
+                            <a href="{{ url('tweets/' .$timeline->id ) }}" class="btn btn-secondary">コメントする</a>
+                        </div>
+                        @if ($timeline->user->id === Auth::user()->id)
+                            <div class="mr-3 d-flex align-items-center btn">
+                                <form method="POST" action="{{ url('tweets/' .$timeline->id) }}" class="mb-0">
+                                    @csrf
+                                    @method('DELETE')
                                             
-                                            <a href="{{ url('tweets/' .$timeline->id .'/edit') }}" class="btn btn-outline-success">編集</a>
-                                            <button type="submit" class="btn btn-outline-danger">削除</button>
-                                        </form>
-                                </div>
-                            @endif
-                            <div class="mr-3 d-flex align-items-center">
-                                <a href="{{ url('tweets/' .$timeline->id) }}"><i class="far fa-comment fa-fw"></i></a>
-                                <p class="mb-0 text-secondary">{{ count($timeline->comments) }}</p>
+                                    <a href="{{ url('tweets/' .$timeline->id .'/edit') }}" class="btn btn-outline-success">編集</a>
+                                    <button type="submit" class="btn btn-outline-danger">削除</button>
+                                </form>
                             </div>
-                            <div class="d-flex align-items-center">
-                                <button type="" class="btn p-0 border-0 text-primary"><i class="far fa-heart fa-fw"></i></button>
-                                <p class="mb-0 text-secondary">{{ count($timeline->favorites) }}</p>
-                            </div>
+                        @endif
+                        <div class="mr-3 d-flex align-items-center">
+                            <a href="{{ url('tweets/' .$timeline->id) }}"><i class="far fa-comment fa-fw"></i></a>
+                            <p class="mb-0 text-secondary">コメント数：{{ count($timeline->comments) }}</p>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <button type="" class="btn p-0 border-0 text-primary"><i class="far fa-heart fa-fw"></i></button>
+                            <p class="mb-0 text-secondary">{{ count($timeline->favorites) }}</p>
+                        </div>
                     </div>
                 </div>
             @endforeach

@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\TweetsController;
+use App\Http\Controllers\CommentsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,7 +39,6 @@ Route::group(['middleware' => 'auth'], function() {
     Route::resource('tweets', TweetsController::class);
 
     // コメント関連
-    Route::resource('comments', CommentsController::class)->only([
-        'store'
-    ]);
+    Route::resource('comments', CommentsController::class);
+
 });
