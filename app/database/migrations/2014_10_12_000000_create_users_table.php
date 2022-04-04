@@ -14,8 +14,9 @@ return new class extends Migration
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
+            $table->increments('id');
+            $table->string('name')->null()->comment('ユーザ名');
+            $table->string('profile_image')->nullable()->comment('プロフィール画像');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
@@ -33,4 +34,5 @@ return new class extends Migration
     {
         Schema::dropIfExists('users');
     }
+    
 };
