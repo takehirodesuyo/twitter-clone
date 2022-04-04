@@ -10,12 +10,6 @@ use App\Models\Follower;
 
 class TweetsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    // ここもう一度
     public function index(Tweet $tweet, Follower $follower)
     {
         $user = auth()->user();
@@ -29,11 +23,6 @@ class TweetsController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         $user = auth()->user();
@@ -43,12 +32,6 @@ class TweetsController extends Controller
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request, Tweet $tweet)
     {
         $user = auth()->user();
@@ -63,12 +46,6 @@ class TweetsController extends Controller
         return redirect('tweets');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show(Tweet $tweet, Comment $comment)
     {
         $user = auth()->user();
@@ -82,12 +59,6 @@ class TweetsController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Tweet $tweet)
     {
         $user = auth()->user();
@@ -103,13 +74,6 @@ class TweetsController extends Controller
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Tweet $tweet)
     {
         $data = $request->all();
@@ -123,12 +87,6 @@ class TweetsController extends Controller
         return redirect('tweets');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Tweet $tweet)
     {
         $user = auth()->user();
@@ -136,4 +94,5 @@ class TweetsController extends Controller
 
         return back();
     }
+    
 }

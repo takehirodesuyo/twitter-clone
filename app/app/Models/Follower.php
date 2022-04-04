@@ -27,7 +27,7 @@ class Follower extends Model
     {
         return $this->where('followed_id', $user_id)->count();
     }
-    // ログインしているユーザーを引数に渡す。
+    
     public function followingIds(Int $user_id)
     {   
         
