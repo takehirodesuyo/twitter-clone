@@ -27,6 +27,34 @@ class UsersController extends Controller
         ]);
     }
 
+    // フォロー
+    public function follow(User $user)
+    {   
+        // 変数にログインユーザーを代入
+        $follower = auth()->user();
+        // フォローしているか
+        $is_following = $follower->isFollowing($user->id);
+        // ！でフォローしてなければフォローできる
+        if(!$is_following) {
+            $follower->follow($user->id);
+            return back();
+        }
+    }
+
+    // フォロー解除
+    public function unfollow(User $user)
+    {
+        // 変数にログインユーザー代入
+        $follower = auth()->user();
+        // フォローしているか
+        $is_following = $follower->isFollowing($user->id);
+        // フォローしてたらフォロー解除できる
+        if($is_following) {
+            $follower->unfollow($user->id);
+            return back();
+        }
+    }
+
     /**
      * Show the form for creating a new resource.
      *
