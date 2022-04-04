@@ -20,7 +20,6 @@
                 <div class="card-header">ツイートする</div>
 
                 <div class="card-body">
-                    
                     <form method="POST" action="{{ route('tweets.store') }}" onSubmit="return ThroughDblClick();">
                         @csrf
 
@@ -31,6 +30,7 @@
                                     <a href="{{ url('users/' .$user->id) }}" class="text-secondary">プロフィール</a>
                                 </div>
                             </div>
+
                             <div class="col-md-12">
                                 <textarea class="form-control @error('text') is-invalid @enderror" name="text" required autocomplete="text" rows="4">{{ old('text') }}</textarea>
 

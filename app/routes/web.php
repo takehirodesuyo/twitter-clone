@@ -1,10 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UsersController;
-use App\Http\Controllers\TweetsController;
 use App\Http\Controllers\CommentsController;
 use App\Http\Controllers\FavoritesController;
+use App\Http\Controllers\TweetsController;
+use App\Http\Controllers\UsersController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,12 +18,10 @@ use App\Http\Controllers\FavoritesController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 
 Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::group(['middleware' => 'auth'], function() {
 
@@ -32,9 +30,9 @@ Route::group(['middleware' => 'auth'], function() {
         'index', 'show', 'edit', 'update'
     ]);
 
-    Route::get('users/{user}/follow', [App\Http\Controllers\UsersController::class, 'follow'])->name('follow');
-    Route::post('users/{user}/follow', [App\Http\Controllers\UsersController::class, 'follow'])->name('follow');
-    Route::delete('users/{user}/unfollow', [App\Http\Controllers\UsersController::class, 'unfollow'])->name('unfollow');
+    Route::get('users/{user}/follow', [UsersController::class, 'follow'])->name('follow');
+    Route::post('users/{user}/follow', [UsersController::class, 'follow'])->name('follow');
+    Route::delete('users/{user}/unfollow', [UsersController::class, 'unfollow'])->name('unfollow');
 
     // ツイート関連
     Route::resource('tweets', TweetsController::class);
