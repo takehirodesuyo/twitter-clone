@@ -24,4 +24,5 @@ class CommentsTableSeeder extends Seeder
             ]);
         }
     }
+    
 }
