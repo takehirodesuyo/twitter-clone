@@ -23,6 +23,7 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
+            <img src="/images/twitter.svg" width="50" height="50">
                 <a class="navbar-brand" href="{{ url('/tweets') }}">
                     {{ config('app.name', 'Laravel') }}
                 </a>
