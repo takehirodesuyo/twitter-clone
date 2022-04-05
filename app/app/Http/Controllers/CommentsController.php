@@ -12,9 +12,9 @@ class CommentsController extends Controller
 {
     public function store(CommentRequest $request, Comment $comment)
     {
-        $user = auth()->user();
+        $user = auth()->id();
         $data = $request->all();
-        $comment->storeComment($user->id, $data);
+        $comment->storeComment($user, $data);
 
         return back();
     }
