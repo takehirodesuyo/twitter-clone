@@ -34,26 +34,26 @@ class TweetsController extends Controller
 
     public function store(Request $request, Tweet $tweet)
     {
-        $user = auth()->user();
+        $user_id = auth()->id();
         $data = $request->all();
         $validator = Validator::make($data, [
             'text' => ['required', 'string', 'max:140']
         ]);
 
         $validator->validate();
-        $tweet->tweetStore($user->id, $data);
+        $tweet->tweetStore($user_id, $data);
         
         return redirect('tweets');
     }
 
     public function show(Tweet $tweet, Comment $comment)
     {
-        $user = auth()->user();
+        $user_id = auth()->id();
         $tweet = $tweet->getTweet($tweet->id);
         $comments = $comment->getComments($tweet->id);
 
         return view('tweets.show', [
-            'user'     => $user,
+            'user'     => $user_id,
             'tweet' => $tweet,
             'comments' => $comments
         ]);
@@ -61,15 +61,15 @@ class TweetsController extends Controller
 
     public function edit(Tweet $tweet)
     {
-        $user = auth()->user();
-        $tweets = $tweet->getEditTweet($user->id, $tweet->id);
+        $user_id = auth()->id();
+        $tweets = $tweet->getEditTweet($user_id, $tweet->id);
 
         if (!isset($tweets)) {
             return redirect('tweets');
         }
 
         return view('tweets.edit', [
-            'user'   => $user,
+            'user'   => $user_id,
             'tweets' => $tweets
         ]);
     }
@@ -89,8 +89,8 @@ class TweetsController extends Controller
 
     public function destroy(Tweet $tweet)
     {
-        $user = auth()->user();
-        $tweet->tweetDestroy($user->id, $tweet->id);
+        $user_id = auth()->id();
+        $tweet->tweetDestroy($user_id, $tweet->id);
 
         return back();
     }

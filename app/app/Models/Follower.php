@@ -30,7 +30,6 @@ class Follower extends Model
     
     public function followingIds(Int $user_id)
     {   
-        
         return $this->where('following_id', $user_id)->get('followed_id');
     }
 

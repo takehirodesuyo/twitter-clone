@@ -4,9 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Consts\paginateConsts;
 
 class Tweet extends Model
-{
+{   
     protected $fillable = [
         'text'
     ];
@@ -28,7 +29,7 @@ class Tweet extends Model
 
     public function getUserTimeLine(Int $user_id)
     {
-        return $this->where('user_id', $user_id)->orderBy('created_at', 'DESC')->paginate(50);
+        return $this->where('user_id', $user_id)->orderBy('created_at', 'DESC')->paginate(paginateConsts::displayPerPage_Tweet);
     }
 
     public function getTweetCount(Int $user_id)
@@ -41,7 +42,7 @@ class Tweet extends Model
     {
         // 自身とフォローしているユーザIDを結合する
         $follow_ids[] = $user_id;
-        return $this->whereIn('user_id', $follow_ids)->orderBy('created_at', 'DESC')->paginate(50);
+        return $this->whereIn('user_id', $follow_ids)->orderBy('created_at', 'DESC')->paginate(paginateConsts::displayPerPage_Tweet);
     }
 
     public function getTweet(Int $tweet_id)
