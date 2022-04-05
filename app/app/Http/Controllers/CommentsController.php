@@ -14,7 +14,7 @@ class CommentsController extends Controller
     {
         $user = auth()->user();
         $data = $request->all();
-        $comment->commentStore($user->id, $data);
+        $comment->storeComment($user->id, $data);
 
         return back();
     }
