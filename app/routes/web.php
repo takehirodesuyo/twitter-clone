@@ -1,6 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+
+use App\Http\Requests\Comment\CommentRequest;
+use App\Http\Requests\Tweet\TweetRequest;
+use App\Http\Requests\User\UserRequest;
+
 use App\Http\Controllers\CommentsController;
 use App\Http\Controllers\FavoritesController;
 use App\Http\Controllers\TweetsController;
@@ -23,7 +28,7 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::group(['middleware' => 'auth'], function() {
+Route::group(['middleware' => 'auth'], function () {
 
     // ユーザー関連
     Route::resource('users', UsersController::class)->only([
@@ -42,5 +47,4 @@ Route::group(['middleware' => 'auth'], function() {
 
     // いいね関連
     Route::resource('favorites', FavoritesController::class);
-
 });

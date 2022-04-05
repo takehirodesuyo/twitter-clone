@@ -76,8 +76,6 @@
                             <div class="form-group row mb-0">
                                 <div class="col-md-12 p-3 w-100 d-flex">
                                     <div class="ml-2 d-flex flex-column">
-                                        <p class="mb-0">{{ $user->name }}</p>
-                                        <a href="{{ url('users/' .$user->id) }}" class="text-secondary">{{ $user->screen_name }}</a>
                                     </div>
                                 </div>
                                 <div class="col-md-12">

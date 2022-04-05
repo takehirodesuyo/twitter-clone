@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use App\Models\Tweet;
+use App\Consts\paginateConsts;
 use App\Models\Comment;
 use App\Models\Follower;
+use App\Models\Tweet;
+use App\Http\Requests\Tweet\TweetRequest;
 
 class TweetsController extends Controller
 {
@@ -17,6 +19,7 @@ class TweetsController extends Controller
         // followed_idだけ抜き出す
         $following_ids = $follow_ids->pluck('followed_id')->toArray();
         $timelines = $tweet->getTimelines($user->id, $following_ids);
+        
         return view('tweets.index', [
             'user'      => $user,
             'timelines' => $timelines
@@ -32,16 +35,9 @@ class TweetsController extends Controller
         ]);
     }
 
-    public function store(Request $request, Tweet $tweet)
+    public function store(TweetRequest $request, Tweet $tweet)
     {
         $user_id = auth()->id();
-        $data = $request->all();
-        $validator = Validator::make($data, [
-            'text' => ['required', 'string', 'max:140']
-        ]);
-
-        $validator->validate();
-        $tweet->tweetStore($user_id, $data);
         
         return redirect('tweets');
     }
@@ -74,14 +70,9 @@ class TweetsController extends Controller
         ]);
     }
 
-    public function update(Request $request, Tweet $tweet)
+    public function update(TweetRequest $request, Tweet $tweet)
     {
         $data = $request->all();
-        $validator = Validator::make($data, [
-            'text' => ['required', 'string', 'max:140']
-        ]);
-
-        $validator->validate();
         $tweet->tweetUpdate($tweet->id, $data);
 
         return redirect('tweets');
