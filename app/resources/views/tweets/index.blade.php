@@ -2,7 +2,7 @@
 
 @section('content')
 <script>
-    var dblClickFlag = null;
+    let dblClickFlag = null;
 
     function ThroughDblClick() {
         // ダブルクリック防止

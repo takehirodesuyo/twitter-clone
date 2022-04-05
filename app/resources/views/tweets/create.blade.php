@@ -1,6 +1,6 @@
 @extends('layouts.app')
 <script>
-    var dblClickFlag = null;
+    let dblClickFlag = null;
 
     function ThroughDblClick() {
         // ダブルクリック防止
