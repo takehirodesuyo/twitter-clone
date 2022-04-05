@@ -7,10 +7,10 @@
         if (dblClickFlag == null) {
             dblClickFlag = 1;
             return true;
-            } else {
-                return false;
-                    }
-            }
+        } else {
+            return false;
+        }
+    }
 </script>
 @section('content')
 <div class="container">
@@ -35,9 +35,9 @@
                                 <textarea class="form-control @error('text') is-invalid @enderror" name="text" required autocomplete="text" rows="4">{{ old('text') }}</textarea>
 
                                 @error('text')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
                                 @enderror
                             </div>
                         </div>

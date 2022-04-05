@@ -23,11 +23,11 @@ class UsersController extends Controller
 
     // フォロー
     public function follow(User $user)
-    {   
+    {
         $follower = auth()->user();
         $is_following = $follower->isFollowing($user->id);
 
-        if(!$is_following) {
+        if (!$is_following) {
             $follower->follow($user->id);
             return back();
         }
@@ -38,19 +38,19 @@ class UsersController extends Controller
     {
         $follower = auth()->user();
         $is_following = $follower->isFollowing($user->id);
-        
-        if($is_following) {
+
+        if ($is_following) {
             $follower->unfollow($user->id);
             return back();
         }
     }
 
     public function edit(User $user)
-    {   
+    {
         return view('users.edit', ['user' => $user]);
     }
 
-    
+
     public function show(User $user, Tweet $tweet, Follower $follower)
     {
         $login_user = auth()->user();
@@ -60,7 +60,7 @@ class UsersController extends Controller
         $tweet_count = $tweet->getTweetCount($user->id);
         $follow_count = $follower->getFollowCount($user->id);
         $follower_count = $follower->getFollowerCount($user->id);
-        
+
         return view('users.show', [
             'user'           => $user,
             'is_following'   => $is_following,
@@ -77,7 +77,6 @@ class UsersController extends Controller
         $data = $request->all();
         $user->updateProfile($data);
 
-        return redirect('users/'.$user->id);
+        return redirect('users/' . $user->id);
     }
-
 }
