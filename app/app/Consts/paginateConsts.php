@@ -4,6 +4,6 @@ namespace App\Consts;
 
 class paginateConsts
 {
-    public const displayPerPage_Tweet = 30;
-    public const displayPerPage_User = 10;
+    public const DISPLAY_PER_PAGE_TWEET = 30;
+    public const DISPLAY_PER_PAGE_USER = 10;
 }

@@ -15,14 +15,15 @@ class TweetsController extends Controller
     public function index(Tweet $tweet, Follower $follower)
     {
         $user = auth()->user();
-        $follow_ids = $follower->followingIds($user->id);
+        // フォローしているユーザーID
+        $FollowIds = $follower->followingIds($user->id);
         // followed_idだけ抜き出す
-        $following_ids = $follow_ids->pluck('followed_id')->toArray();
-        $timelines = $tweet->getTimelines($user->id, $following_ids);
+        $FollowingIds =  $FollowIds->pluck('followed_id')->toArray();
+        $TimeLines = $tweet->getTimelines($user->id, $FollowingIds);
 
         return view('tweets.index', [
             'user'      => $user,
-            'timelines' => $timelines
+            'TimeLines' => $TimeLines
         ]);
     }
 
@@ -39,43 +40,43 @@ class TweetsController extends Controller
     {
         $user = auth()->user();
         $data = $request->all();
-        $tweet->tweetStore($user->id, $data);
+        $tweet->store($user->id, $data);
 
         return redirect('tweets');
     }
 
     public function show(Tweet $tweet, Comment $comment)
     {
-        $user_id = auth()->id();
-        $tweet = $tweet->getTweet($tweet->id);
-        $comments = $comment->getComments($tweet->id);
+        $UserId = auth()->id();
+        $Tweet = $tweet->Tweet($tweet->id);
+        $Comments = $comment->Comments($tweet->id);
 
         return view('tweets.show', [
-            'user'     => $user_id,
-            'tweet' => $tweet,
-            'comments' => $comments
+            'User'     => $UserId,
+            'Tweet' => $Tweet,
+            'Comments' => $Comments
         ]);
     }
 
     public function edit(Tweet $tweet)
     {
         $user_id = auth()->id();
-        $tweets = $tweet->getEditTweet($user_id, $tweet->id);
+        $tweets = $tweet->getTweetByUserIdAndTweetId($user_id, $tweet->id);
 
-        if (!isset($tweets)) {
+        if (isset($tweets)) {
+            return view('tweets.edit', [
+                'user'   => $user_id,
+                'tweets' => $tweets
+            ]);
+        } else {
             return redirect('tweets');
         }
-
-        return view('tweets.edit', [
-            'user'   => $user_id,
-            'tweets' => $tweets
-        ]);
     }
 
     public function update(TweetRequest $request, Tweet $tweet)
     {
         $data = $request->all();
-        $tweet->tweetUpdate($tweet->id, $data);
+        $tweet->tweetupdate($tweet->id, $data);
 
         return redirect('tweets');
     }
@@ -83,7 +84,7 @@ class TweetsController extends Controller
     public function destroy(Tweet $tweet)
     {
         $user_id = auth()->id();
-        $tweet->tweetDestroy($user_id, $tweet->id);
+        $tweet->tweetdestroy($user_id, $tweet->id);
 
         return back();
     }

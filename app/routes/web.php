@@ -35,7 +35,7 @@ Route::group(['middleware' => 'auth'], function () {
         'index', 'show', 'edit', 'update'
     ]);
 
-    Route::get('users/{user}/follow', [UsersController::class, 'follow'])->name('follow');
+    // フォロー関連
     Route::post('users/{user}/follow', [UsersController::class, 'follow'])->name('follow');
     Route::delete('users/{user}/unfollow', [UsersController::class, 'unfollow'])->name('unfollow');
 

@@ -27,7 +27,7 @@ class User extends Authenticatable
     ];
 
     // フォローする
-    public function follow(Int $user_id) 
+    public function follow(Int $user_id)
     {
         return $this->follows()->attach($user_id);
     }
@@ -39,19 +39,20 @@ class User extends Authenticatable
     }
 
     // フォローしているか
-    public function isFollowing(Int $user_id) 
+    public function isFollowing(Int $user_id)
     {
         return $this->follows()->where('followed_id', $user_id)->exists();
     }
 
     // フォローされているか
-    public function isFollowed(Int $user_id) 
+    public function isFollowed(Int $user_id)
     {
-        return $this->followers()->where('followed_id', $user_id)->exists();
+        return $this->followers()->where('following_id', $user_id)->exists();
     }
+
     public function getAllUsers(Int $user_id)
     {
-        return $this->Where('id', '<>', $user_id)->paginate(paginateConsts::displayPerPage_User);
+        return $this->Where('id', '<>', $user_id)->paginate(paginateConsts::DISPLAY_PER_PAGE_USER);
     }
 
     /**
@@ -73,18 +74,18 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    // follower1に対しユーザー多数
+    // 多対多
     public function followers()
     {
         return $this->belongsToMany(self::class, 'followers', 'followed_id', 'following_id');
     }
-    
+
     public function follows()
     {
         return $this->belongsToMany(self::class, 'followers', 'following_id', 'followed_id');
     }
 
-    public function updateProfile(Array $params)
+    public function updateProfile(array $params)
     {
         // issetで値の判定
         if (isset($params['name'])) {
@@ -99,10 +100,9 @@ class User extends Authenticatable
                 ->update([
                     'name'          => $params['name'],
                     'email'         => $params['email'],
-                ]); 
+                ]);
         }
 
         return;
     }
-
 }

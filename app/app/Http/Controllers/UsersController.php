@@ -21,6 +21,40 @@ class UsersController extends Controller
         ]);
     }
 
+    public function edit(User $user)
+    {
+        return view('users.edit', ['user' => $user]);
+    }
+
+    public function show(User $user, Tweet $tweet, Follower $follower)
+    {
+        $LoginUser = auth()->user();
+        $IsFollowing = $LoginUser->isFollowing($user->id);
+        $IsFollowed = $LoginUser->isFollowed($user->id);
+        $TimeLines = $tweet->getUserTimeLine($user->id);
+        $TweetCount = $tweet->getTweetCount($user->id);
+        $FollowCount = $follower->getFollowCount($user->id);
+        $FollowerCount = $follower->getFollowerCount($user->id);
+
+        return view('users.show', [
+            'user'           => $user,
+            'IsFollowing'    => $IsFollowing,
+            'IsFollowed'     => $IsFollowed,
+            'TimeLines'      => $TimeLines,
+            'TweetCount'     => $TweetCount,
+            'FollowCount'    => $FollowCount,
+            'FollowerCount'   => $FollowerCount
+        ]);
+    }
+
+    public function update(UserRequest $request, User $user)
+    {
+        $data = $request->all();
+        $user->updateProfile($data);
+
+        return redirect()->route('users.update', $user->id);
+    }
+
     // フォロー
     public function follow(User $user)
     {
@@ -43,40 +77,5 @@ class UsersController extends Controller
             $follower->unfollow($user->id);
             return back();
         }
-    }
-
-    public function edit(User $user)
-    {
-        return view('users.edit', ['user' => $user]);
-    }
-
-
-    public function show(User $user, Tweet $tweet, Follower $follower)
-    {
-        $login_user = auth()->user();
-        $is_following = $login_user->isFollowing($user->id);
-        $is_followed = $login_user->isFollowed($user->id);
-        $timelines = $tweet->getUserTimeLine($user->id);
-        $tweet_count = $tweet->getTweetCount($user->id);
-        $follow_count = $follower->getFollowCount($user->id);
-        $follower_count = $follower->getFollowerCount($user->id);
-
-        return view('users.show', [
-            'user'           => $user,
-            'is_following'   => $is_following,
-            'is_followed'    => $is_followed,
-            'timelines'      => $timelines,
-            'tweet_count'    => $tweet_count,
-            'follow_count'   => $follow_count,
-            'follower_count' => $follower_count
-        ]);
-    }
-
-    public function update(UserRequest $request, User $user)
-    {
-        $data = $request->all();
-        $user->updateProfile($data);
-
-        return redirect('users/' . $user->id);
     }
 }

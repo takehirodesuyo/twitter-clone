@@ -14,9 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
-            // increments:自動増分するカラムを作成
             $table->increments('id');
-            // unique:重複がないか null commentってなんだ
             $table->string('name')->null()->comment('ユーザ名');
             $table->string('profile_image')->nullable()->comment('プロフィール画像');
             $table->string('email')->unique();

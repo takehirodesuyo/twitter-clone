@@ -10,9 +10,9 @@ class Favorite extends Model
     public $timestamps = false;
 
     // いいねしているかどうかの判定処理
-    public function isFavorite(Int $user_id, Int $tweet_id) 
+    public function isFavorite(Int $user_id, Int $tweet_id)
     {
-        return (boolean) $this->where('user_id', $user_id)->where('tweet_id', $tweet_id)->first();
+        return (bool) $this->where('user_id', $user_id)->where('tweet_id', $tweet_id)->first();
     }
 
     public function storeFavorite(Int $user_id, Int $tweet_id)
@@ -28,5 +28,4 @@ class Favorite extends Model
     {
         return $this->where('id', $favorite_id)->delete();
     }
-    
 }

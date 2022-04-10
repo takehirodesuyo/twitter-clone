@@ -14,21 +14,16 @@ return new class extends Migration
     public function up()
     {
         Schema::create('tweets', function (Blueprint $table) {
-            $table->increments('id');
             $table->unsignedInteger('user_id')->comment('ユーザID');
-            $table->string('text')->comment('本文');
-            // $table->softDeletes();
-            $table->timestamps();
 
+            $table->increments('id');
+            $table->string('text')->comment('本文');
+            $table->timestamps();
             $table->index('id');
             $table->index('user_id');
             $table->index('text');
             // usersテーブルと外部キー接続
-            $table->foreign('user_id')
-                ->references('id')
-                ->on('users')
-                ->onDelete('cascade')
-                ->onUpdate('cascade');
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

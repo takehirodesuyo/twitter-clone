@@ -14,9 +14,8 @@ class FavoritesController extends Controller
         $tweet_id = $request->tweet_id;
         $is_favorite = $favorite->isFavorite($user->id, $tweet_id);
 
-        if(!$is_favorite) {
+        if (!$is_favorite) {
             $favorite->storeFavorite($user->id, $tweet_id);
-            return back();
         }
         return back();
     }
@@ -28,11 +27,9 @@ class FavoritesController extends Controller
         $favorite_id = $favorite->id;
         $is_favorite = $favorite->isFavorite($user_id, $tweet_id);
 
-        if($is_favorite) {
+        if ($is_favorite) {
             $favorite->destroyFavorite($favorite_id);
-            return back();
         }
         return back();
     }
-    
 }
