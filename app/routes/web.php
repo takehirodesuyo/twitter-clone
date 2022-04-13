@@ -47,4 +47,6 @@ Route::group(['middleware' => 'auth'], function () {
 
     // いいね関連
     Route::resource('favorites', FavoritesController::class);
+
+    Route::post('tweets/search', [TweetsController::class, 'search'])->name('tweets.search');
 });

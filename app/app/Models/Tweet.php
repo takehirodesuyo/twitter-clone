@@ -9,7 +9,8 @@ use App\Consts\paginateConsts;
 class Tweet extends Model
 {
     protected $fillable = [
-        'text'
+        'text',
+        'image',
     ];
     // tweetに対しユーザーは1
     public function user()
@@ -51,10 +52,12 @@ class Tweet extends Model
         return $this->with('user')->where('id', $tweet_id)->first();
     }
 
-    public function store(Int $user_id, array $data)
+    public function store(Int $user_id, array $data, string $img)
     {
         $this->user_id = $user_id;
         $this->text = $data['text'];
+        $this->image = $img;
+
         $this->save();
 
         return;
@@ -63,25 +66,5 @@ class Tweet extends Model
     public function getTweetByUserIdAndTweetId(Int $user_id, Int $tweet_id)
     {
         return $this->where('user_id', $user_id)->where('id', $tweet_id)->first();
-    }
-
-    /**
-     * Create a new Eloquent model instance.
-     *
-     * @param  array  $attributes
-     * @return void
-     */
-    public function tweetupdate(Int $tweet_id, array $data)
-    {
-        $this->id = $tweet_id;
-        $this->text = $data['text'];
-        $this->update();
-
-        return;
-    }
-
-    public function tweetdestroy(Int $user_id, Int $tweet_id)
-    {
-        return $this->where('user_id', $user_id)->where('id', $tweet_id)->delete();
     }
 }

@@ -17,12 +17,13 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8 mb-3">
+        <div class="col-md-7 mb-3">
             <div class="card">
                 <div class="d-inline-flex">
                     <div class="p-3 d-flex flex-column">
                         <div class="mt-3 d-flex flex-column">
                             <h4 class="mb-0 font-weight-bold">{{ $user->name }}</h4>
+                            <img src="{{asset('storage/images/' .$user->profile_image)}}" class="d-block rounded-circle mb-3" width="160" height="170">
                         </div>
                     </div>
                     <div class="p-3 d-flex flex-column justify-content-between">
@@ -31,7 +32,7 @@
                                 @if ($user->id === Auth::user()->id)
                                 <a href="{{ route('users.edit', $user->id ) }}" class="btn btn-primary">プロフィールを編集する</a>
                                 @else
-                                @if ($IsFollowing)
+                                @if ($isFollowing)
                                 <form action="{{ route('unfollow', $user->id) }}" method="POST">
                                     {{ csrf_field() }}
                                     {{ csrf_field() }}
@@ -47,7 +48,7 @@
                                 </form>
                                 @endif
 
-                                @if ($IsFollowed)
+                                @if ($isFollowed)
                                 <span class="mt-2 px-1 bg-secondary text-light">フォローされています</span>
                                 @endif
                                 @endif
@@ -56,76 +57,74 @@
                         <div class="d-flex justify-content-end">
                             <div class="p-2 d-flex flex-column align-items-center">
                                 <p class="font-weight-bold">ツイート数</p>
-                                <span>{{ $TweetCount }}</span>
+                                <span>{{ $tweetCount }}</span>
                             </div>
                             <div class="p-2 d-flex flex-column align-items-center">
                                 <p class="font-weight-bold">フォロー数</p>
-                                <span>{{ $FollowCount }}</span>
+                                <span>{{ $followCount }}</span>
                             </div>
                             <div class="p-2 d-flex flex-column align-items-center">
                                 <p class="font-weight-bold">フォロワー数</p>
-                                <span>{{ $FollowerCount }}</span>
+                                <span>{{ $followerCount }}</span>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        @if (isset($TimeLines))
-        @foreach ($TimeLines as $TimeLine)
-        <div class="col-md-8 mb-3">
-            <div class="card">
-                <div class="card-haeder p-3 w-100 d-flex">
-                    <div class="ml-2 d-flex flex-column flex-grow-1">
-                        <p class="mb-0">{{ $TimeLine->user->name }}</p>
-                        <p class="mb-0 text-secondary">{{ $TimeLine->created_at->format('Y年m月d日 H:i') }}</p>
+            @if (isset($timeLines))
+            @foreach ($timeLines as $timeLine)
+            <div class="card mt-3">
+                <div>
+                    <img src="{{asset('storage/images/' .$timeLine->user->profile_image)}}" class="d-block rounded-circle mb-3" width="90" height="90">
+                    <a href="{{ route('users.show', $timeLine->user_id) }}" class="text-dark text-decoration-none">{{ $timeLine->user->name }}</a>
+                    <a class="mb-0 text-secondary text-decoration-none text-right">{{ $timeLine->created_at->diffForHumans() }}</a>
+                </div>
+                {!! nl2br(e($timeLine->text)) !!}
+                <!-- 写真 -->
+                <img src="{{ '/storage/' . $timeLine['image'] }}" height="50%" width="100%">
+                <div class="mr-3 d-flex align-items-center btn">
+                    <!-- コメント -->
+                    <a href="{{ route('tweets.show', $timeLine->id  ) }}"><img src="/images/comment.jpg" width="30" height="30"></a>
+                    <p class="mb-0 text-secondary">{{ count($timeLine->comments) }}</p>
+                    <!-- いいね関連 -->
+                    <div class="d-flex align-items-center">
+                        @if (!in_array($user->id, array_column($timeLine->favorites->toArray(), 'user_id'), TRUE))
+                        <form method="POST" action="{{ url('favorites/') }}" class="mb-0">
+                            @csrf
+
+                            <input type="hidden" name="tweet_id" value="{{ $timeLine->id }}">
+                            <button type="submit" class="btn p-0 border-0 text-primary"><img src="/images/heart_1.png" width="30" height="30"><i class="far fa-heart fa-fw"></i></button>
+                        </form>
+                        @else
+                        <form method="POST" action="{{ url('favorites/' .array_column($timeLine->favorites->toArray(), 'id', 'user_id')[$user->id]) }}" class="mb-0">
+                            @csrf
+                            @method('DELETE')
+
+                            <button type="submit" class="btn p-0 border-0 text-danger"><img src="/images/heart_2.jpeg" width="30" height="30"></i></button>
+                        </form>
+                        @endif
+                        <p class="mb-0 text-secondary">{{ count($timeLine->favorites) }}</p>
                     </div>
                 </div>
-                <div class="card-body">
-                    {{ $TimeLine->text }}
-                </div>
-                @if ($TimeLine->user->id === Auth::user()->id)
-                <div class="mr-3 d-flex align-items-center">
-                    <a href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fas fa-ellipsis-v fa-fw"></i>
-                    </a>
-                    <form method="POST" action="{{ url('tweets/' .$TimeLine->id) }}" class="mb-0" onSubmit="return ThroughDblClick();">
+                @if ($timeLine->user->id === Auth::user()->id)
+                <div class="d-flex align-items-center btn">
+                    <form method="POST" action="{{ route('tweets.destroy', $timeLine->id) }}" class="mb-0" onSubmit="return ThroughDblClick();">
                         @csrf
                         @method('DELETE')
-                        <a href="{{ url('tweets/' .$TimeLine->id .'/edit') }}" class="btn btn-outline-success">編集</a>
+
+                        <a href="{{ route('tweets.edit', $timeLine->id, 'edit') }}" class="btn btn-outline-success">編集</a>
                         <button type="submit" class="btn btn-outline-danger">削除</button>
                     </form>
                 </div>
                 @endif
-                <div class="mr-3 d-flex align-items-center">
-                    <a href="{{ url('tweets/' .$TimeLine->id) }}"><i class="far fa-comment fa-fw"></i></a>
-                    <p class="mb-0 text-secondary">コメント数：{{ count($TimeLine->comments) }}</p>
-                </div>
-                <div class="d-flex align-items-center">
-                    @if (!in_array(Auth::user()->id, array_column($TimeLine->favorites->toArray(), 'user_id'), TRUE))
-                    <form method="POST" action="{{ url('favorites/') }}" class="mb-0">
-                        @csrf
-
-                        <input type="hidden" name="tweet_id" value="{{ $TimeLine->id }}">
-                        <button type="submit" class="btn p-0 border-0 text-primary">いいね</button>
-                    </form>
-                    @else
-                    <form method="POST" action="{{ url('favorites/' .array_column($TimeLine->favorites->toArray(), 'id', 'user_id')[Auth::user()->id]) }}" class="mb-0">
-                        @csrf
-                        @method('DELETE')
-
-                        <button type="submit" class="btn p-0 border-0 text-danger">いいね解除</i></button>
-                    </form>
-                    @endif
-                    <p class="mb-0 text-secondary">{{ count($TimeLine->favorites) }}</p>
-                </div>
             </div>
+            @endforeach
+            @endif
         </div>
-        @endforeach
-        @endif
+
     </div>
     <div class="my-4 d-flex justify-content-center">
-        {{ $TimeLines->links() }}
+        {{ $timeLines->links() }}
     </div>
 </div>
 @endsection

@@ -15,20 +15,22 @@
 </script>
 @section('content')
 <div class="container">
-    <div class="row justify-content-center mb-5">
-        <div class="col-md-8 mb-3">
+    <div class="row justify-content-center mb-2">
+        <div class="col-md-6 mb-3">
             <div class="card">
                 <div class="card-haeder p-3 w-100 d-flex">
                     <div class="ml-2 d-flex flex-column">
                         <p class="mb-0">{{ $Tweet->user->name }}</p>
                     </div>
                     <div class="d-flex justify-content-end flex-grow-1">
-                        <p class="mb-0 text-secondary">{{ $Tweet->created_at->format('Y年m月d日 H:i') }}</p>
+                        <p class="mb-0 text-secondary">{{ $Tweet->created_at->diffForHumans() }}</p>
                     </div>
                 </div>
                 <div class="card-body">
                     {!! nl2br(e($Tweet->text)) !!}
                 </div>
+
+                <img src="{{ '/storage/' . $Tweet['image'] }}" height="50%" width="100%">
                 @if ($Tweet->user->id === Auth::user()->id)
                 <div class="mr-3 d-flex align-items-center btn">
                     <form method="POST" action="{{ url('tweets/' .$Tweet->id) }}" class="mb-0" onSubmit="return ThroughDblClick();">
@@ -45,17 +47,16 @@
     </div>
 
     <div class="row justify-content-center">
-        <div class="col-md-8 mb-3">
+        <div class="col-md-6 mb-3">
             <ul class="list-group">
                 @forelse ($Comments as $Comment)
                 <li class="list-group-item">
                     <div class="py-3 w-100 d-flex">
                         <div class="ml-2 d-flex flex-column">
-                            <p class="mb-0">{{ $Comment->user->name }}</p>
-                            <a href="{{ route('users.show' ,$Comment->user->id) }}" class="text-secondary">{{ $Comment->user->name }}</a>
+                            <a href="{{ route('users.show' ,$Comment->user->id) }}" class="text-secondary text-decoration-none">{{ $Comment->user->name }}</a>
                         </div>
                         <div class="d-flex justify-content-end flex-grow-1">
-                            <p class="mb-0 text-secondary">{{ $Comment->created_at->format('Y年m月d日 H:i') }}</p>
+                            <p class="mb-0 text-secondary">{{ $Comment->created_at->diffForHumans() }}</p>
                         </div>
                     </div>
                     <div class="py-3">
@@ -91,7 +92,6 @@
 
                             <div class="form-group row mb-0">
                                 <div class="col-md-12 text-right">
-                                    <p class="mb-4 text-danger">140文字以内</p>
                                     <button type="submit" class="btn btn-secondary">
                                         コメントする
                                     </button>

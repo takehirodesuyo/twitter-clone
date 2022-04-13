@@ -8,22 +8,35 @@ use App\Consts\paginateConsts;
 use App\Models\Comment;
 use App\Models\Follower;
 use App\Models\Tweet;
+use App\Models\User;
 use App\Http\Requests\Tweet\TweetRequest;
 
 class TweetsController extends Controller
 {
-    public function index(Tweet $tweet, Follower $follower)
+    public function index(Tweet $tweet, Follower $follower, User $user)
     {
         $user = auth()->user();
         // フォローしているユーザーID
         $FollowIds = $follower->followingIds($user->id);
         // followed_idだけ抜き出す
         $FollowingIds =  $FollowIds->pluck('followed_id')->toArray();
-        $TimeLines = $tweet->getTimelines($user->id, $FollowingIds);
+        $timeLines = $tweet->getTimelines($user->id, $FollowingIds);
+        $tweetCount = $tweet->getTweetCount($user->id);
+        $followCount = $follower->getFollowCount($user->id);
+        $followerCount = $follower->getFollowerCount($user->id);
+        $all_users = $user->getAllUsers(auth()->user()->id);
+        $followNames = auth()->user()->follows()->get();
+        $followerNames = auth()->user()->followers()->get();
 
         return view('tweets.index', [
             'user'      => $user,
-            'TimeLines' => $TimeLines
+            'timeLines' => $timeLines,
+            'tweetCount'     => $tweetCount,
+            'followCount'    => $followCount,
+            'followerCount'   => $followerCount,
+            'all_users'  => $all_users,
+            'followNames'  => $followNames,
+            'followerNames' =>  $followerNames,
         ]);
     }
 
@@ -38,10 +51,13 @@ class TweetsController extends Controller
 
     public function store(TweetRequest $request, Tweet $tweet)
     {
-        $user = auth()->user();
+        $filename = $request->imgpath->getClientOriginalName();
+        $img = $request->imgpath->storeAs('', $filename, 'public');
+        $user_id = auth()->id();
         $data = $request->all();
-        $tweet->store($user->id, $data);
+        $tweet->store($user_id, $data, $img);
 
+        $tweet->save();
         return redirect('tweets');
     }
 
@@ -76,16 +92,47 @@ class TweetsController extends Controller
     public function update(TweetRequest $request, Tweet $tweet)
     {
         $data = $request->all();
-        $tweet->tweetupdate($tweet->id, $data);
-
+        $tweet_id = $tweet->id;
+        $tweet = Tweet::find($tweet_id);
+        $tweet->fill($data);
+        $tweet->save();
         return redirect('tweets');
     }
 
     public function destroy(Tweet $tweet)
     {
-        $user_id = auth()->id();
-        $tweet->tweetdestroy($user_id, $tweet->id);
-
+        $tweet_id = $tweet->id;
+        $tweet = Tweet::find($tweet_id);
+        $tweet->delete();
         return back();
+    }
+
+    public function search(Request $request, Tweet $tweet, Follower $follower, User $user)
+    {
+        $tweets = Tweet::where('text', 'like', "%{$request->search}%")->paginate(paginateConsts::DISPLAY_PER_PAGE_TWEET);
+        $user = auth()->user();
+        // フォローしているユーザーID
+        $FollowIds = $follower->followingIds($user->id);
+        // followed_idだけ抜き出す
+        $FollowingIds =  $FollowIds->pluck('followed_id')->toArray();
+        $timeLines = $tweet->getTimelines($user->id, $FollowingIds);
+        $tweetCount = $tweet->getTweetCount($user->id);
+        $followCount = $follower->getFollowCount($user->id);
+        $followerCount = $follower->getFollowerCount($user->id);
+        $all_users = $user->getAllUsers(auth()->user()->id);
+        $followNames = auth()->user()->follows()->get();
+        $followerNames = auth()->user()->followers()->get();
+
+        return view('tweets.search', [
+            'user'      => $user,
+            'timeLines' => $timeLines,
+            'tweetCount'     => $tweetCount,
+            'followCount'    => $followCount,
+            'followerCount'   => $followerCount,
+            'all_users'  => $all_users,
+            'followNames'  => $followNames,
+            'followerNames' =>  $followerNames,
+            'tweets' => $tweets,
+        ]);
     }
 }

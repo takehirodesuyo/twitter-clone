@@ -28,22 +28,22 @@ class UsersController extends Controller
 
     public function show(User $user, Tweet $tweet, Follower $follower)
     {
-        $LoginUser = auth()->user();
-        $IsFollowing = $LoginUser->isFollowing($user->id);
-        $IsFollowed = $LoginUser->isFollowed($user->id);
-        $TimeLines = $tweet->getUserTimeLine($user->id);
-        $TweetCount = $tweet->getTweetCount($user->id);
-        $FollowCount = $follower->getFollowCount($user->id);
-        $FollowerCount = $follower->getFollowerCount($user->id);
+        $loginUser = auth()->user();
+        $isFollowing = $loginUser->isFollowing($user->id);
+        $isFollowed = $loginUser->isFollowed($user->id);
+        $timeLines = $tweet->getUserTimeLine($user->id);
+        $tweetCount = $tweet->getTweetCount($user->id);
+        $followCount = $follower->getFollowCount($user->id);
+        $followerCount = $follower->getFollowerCount($user->id);
 
         return view('users.show', [
             'user'           => $user,
-            'IsFollowing'    => $IsFollowing,
-            'IsFollowed'     => $IsFollowed,
-            'TimeLines'      => $TimeLines,
-            'TweetCount'     => $TweetCount,
-            'FollowCount'    => $FollowCount,
-            'FollowerCount'   => $FollowerCount
+            'isFollowing'    => $isFollowing,
+            'isFollowed'     => $isFollowed,
+            'timeLines'      => $timeLines,
+            'tweetCount'     => $tweetCount,
+            'followCount'    => $followCount,
+            'followerCount'   => $followerCount
         ]);
     }
 

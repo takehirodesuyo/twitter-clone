@@ -1,0 +1,17 @@
+.Likes {
+    position: relative;
+}
+.Likes-Icon {
+    position: absolute;
+    left: -48px;
+    background: url("./heart.png");
+    background-position: left;
+    background-size: 2900%;
+    background-repeat: no-repeat;
+    width: 105px;
+    height: 105px;
+}
+
+.red {
+    color: red;
+}

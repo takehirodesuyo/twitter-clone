@@ -19,7 +19,6 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'screen_name',
         'name',
         'profile_image',
         'email',
@@ -87,12 +86,13 @@ class User extends Authenticatable
 
     public function updateProfile(array $params)
     {
-        // issetで値の判定
-        if (isset($params['name'])) {
+        if (isset($params['profile_image'])) {
+            $file_name = $params['profile_image']->store('public/profile_image/');
 
             $this::where('id', $this->id)
                 ->update([
                     'name'          => $params['name'],
+                    'profile_image' => basename($file_name),
                     'email'         => $params['email'],
                 ]);
         } else {

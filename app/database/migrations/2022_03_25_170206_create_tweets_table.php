@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use phpDocumentor\Reflection\Types\Nullable;
 
 return new class extends Migration
 {
@@ -17,7 +18,8 @@ return new class extends Migration
             $table->unsignedInteger('user_id')->comment('ユーザID');
 
             $table->increments('id');
-            $table->string('text')->comment('本文');
+            $table->string('text')->nullable()->comment('本文');
+            $table->string('img_path');
             $table->timestamps();
             $table->index('id');
             $table->index('user_id');

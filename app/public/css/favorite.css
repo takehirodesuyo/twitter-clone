@@ -1,0 +1,39 @@
+.red {
+    color: red;
+}
+
+.Likes {
+    position: relative;
+}
+.LikesIcon {
+    position: absolute;
+    left: -48px;
+    background: url("../images/hert.png");
+    background-position: left;
+    background-size: 2900%;
+    background-repeat: no-repeat;
+    width: 105px;
+    height: 105px;
+}
+
+@keyframes heartBlast {
+    0% {
+        background-position: left;
+    }
+    100% {
+        background-position: right;
+    }
+}
+
+.HeartAnimation {
+    display: inline-block;
+    background-position: right;
+    -webkit-animation-name: heartBlast;
+    animation-name: heartBlast;
+    -webkit-animation-duration: 0.8s;
+    animation-duration: 0.8s;
+    -webkit-animation-iteration-count: 1;
+    animation-iteration-count: 1;
+    -webkit-animation-timing-function: steps(28);
+    animation-timing-function: steps(28);
+}

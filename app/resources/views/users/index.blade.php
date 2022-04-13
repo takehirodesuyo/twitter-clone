@@ -9,6 +9,7 @@
                 <div class="card-haeder p-3 w-100 d-flex">
                     <div class="ml-2 d-flex flex-column">
                         <p class="mb-0">{{ $user->name }}</p>
+                        <img src="{{asset('storage/images/'.$user->profile_image)}}" class="d-block rounded-circle mb-3" width="160" height="170">
                         <a href="{{ url('users/' .$user->id) }}" class="text-secondary">プロフィール</a>
                     </div>
                     @if (auth()->user()->isFollowed($user->id))
@@ -16,7 +17,7 @@
                         <span class="px-1 bg-secondary text-light">フォローされています</span>
                     </div>
                     @endif
-                    <div class="d-flex justify-content-end flex-grow-1">
+                    <div class="d-flex flex-grow-1">
                         @if (auth()->user()->isFollowing($user->id))
                         <form action="{{ route('unfollow', $user->id ) }}" method="POST">
                             {{ csrf_field() }}
