@@ -12,7 +12,7 @@ class Tweet extends Model
         'text',
         'image',
     ];
-    // tweetに対しユーザーは1
+
     public function user()
     {
         return $this->belongsTo(User::class);

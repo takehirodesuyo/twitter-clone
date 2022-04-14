@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 use App\Consts\paginateConsts;
 use App\Models\Comment;
 use App\Models\Follower;
@@ -13,6 +12,15 @@ use App\Http\Requests\Tweet\TweetRequest;
 
 class TweetsController extends Controller
 {
+    /**
+     * 投稿一覧を表示するメソッド
+     * 
+     * @params int $tweet,
+     * @params int $follower,
+     * @params int $user,
+     * 
+     * @return Illuminate\Http\Response;
+     */
     public function index(Tweet $tweet, Follower $follower, User $user)
     {
         $user = auth()->user();
@@ -39,6 +47,11 @@ class TweetsController extends Controller
             'followerNames' =>  $followerNames,
         ]);
     }
+    /**
+     * 新規投稿画面を表示するメソッド
+     * 
+     * @return Illuminate\Http\Response;
+     */
 
     public function create()
     {
@@ -48,6 +61,14 @@ class TweetsController extends Controller
             'user' => $user
         ]);
     }
+    /**
+     * 投稿を保存するメソッド
+     * 
+     * @params int $request,
+     * @params int $tweet,
+     * 
+     * @return Illuminate\Http\Response;
+     */
 
     public function store(TweetRequest $request, Tweet $tweet)
     {
@@ -60,20 +81,34 @@ class TweetsController extends Controller
         $tweet->save();
         return redirect('tweets');
     }
+    /**
+     * 投稿詳細を表示するメソッド
+     * 
+     * @params int $tweet,
+     * @params int $comment,
+     * 
+     * @return Illuminate\Http\Response;
+     */
 
     public function show(Tweet $tweet, Comment $comment)
     {
-        $UserId = auth()->id();
-        $Tweet = $tweet->Tweet($tweet->id);
-        $Comments = $comment->Comments($tweet->id);
+        $userId = auth()->id();
+        $tweet = $tweet->Tweet($tweet->id);
+        $comments = $comment->Comments($tweet->id);
 
         return view('tweets.show', [
-            'User'     => $UserId,
-            'Tweet' => $Tweet,
-            'Comments' => $Comments
+            'user'     => $userId,
+            'tweet' => $tweet,
+            'comments' => $comments
         ]);
     }
-
+    /**
+     * 投稿編集画面を表示するメソッド
+     * 
+     * @params int $tweet
+     * 
+     * @return Illuminate\Http\Response;
+     */
     public function edit(Tweet $tweet)
     {
         $user_id = auth()->id();
@@ -88,6 +123,14 @@ class TweetsController extends Controller
             return redirect('tweets');
         }
     }
+    /**
+     * 投稿を更新するメソッド
+     * 
+     * @params int $request
+     * @params int $tweet
+     * 
+     * @return Illuminate\Http\Response;
+     */
 
     public function update(TweetRequest $request, Tweet $tweet)
     {
@@ -98,7 +141,13 @@ class TweetsController extends Controller
         $tweet->save();
         return redirect('tweets');
     }
-
+    /**
+     * 投稿を削除するメソッド
+     * 
+     * @params int $tweet
+     * 
+     * @return Illuminate\Http\Response;
+     */
     public function destroy(Tweet $tweet)
     {
         $tweet_id = $tweet->id;
@@ -106,6 +155,16 @@ class TweetsController extends Controller
         $tweet->delete();
         return back();
     }
+    /**
+     * 検索結果を表示するメソッド
+     * 
+     * @params int $request
+     * @params int $tweet,
+     * @params int $follower,
+     * @params int $user,
+     * 
+     * @return Illuminate\Http\Response;
+     */
 
     public function search(Request $request, Tweet $tweet, Follower $follower, User $user)
     {

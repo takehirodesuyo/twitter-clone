@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -25,30 +24,58 @@ class User extends Authenticatable
         'password'
     ];
 
-    // フォローする
+    /**
+     * フォローするメソッド
+     * 
+     * @params int $user_id
+     * 
+     * @return int
+     */
     public function follow(Int $user_id)
     {
         return $this->follows()->attach($user_id);
     }
 
-    // フォロー解除する
+    /**
+     * フォロー解除するメソッド
+     * 
+     * @params int $user_id
+     * 
+     * @return int
+     */
     public function unfollow(Int $user_id)
     {
         return $this->follows()->detach($user_id);
     }
-
-    // フォローしているか
+    /**
+     * フォローしているか判定するメソッド
+     * 
+     * @params int $user_id
+     * 
+     * @return int
+     */
     public function isFollowing(Int $user_id)
     {
         return $this->follows()->where('followed_id', $user_id)->exists();
     }
-
-    // フォローされているか
+    /**
+     * フォローされているか判定するメソッド
+     * 
+     * @params int $user_id
+     * 
+     * @return int
+     */
     public function isFollowed(Int $user_id)
     {
         return $this->followers()->where('following_id', $user_id)->exists();
     }
-
+    /**
+     * ログインユーザー以外のユーザーIDを取得するメソッド
+     * 
+     * @params int $user_id
+     * 
+     * @return int
+     */
     public function getAllUsers(Int $user_id)
     {
         return $this->Where('id', '<>', $user_id)->paginate(paginateConsts::DISPLAY_PER_PAGE_USER);

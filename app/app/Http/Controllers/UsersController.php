@@ -12,6 +12,13 @@ use App\Models\Follower;
 
 class UsersController extends Controller
 {
+    /**
+     * ユーザー一覧を表示するメソッド
+     * 
+     * @params int $user
+     * 
+     * @return Illuminate\Http\Response;
+     */
     public function index(User $user)
     {
         $all_users = $user->getAllUsers(auth()->user()->id);
@@ -20,12 +27,26 @@ class UsersController extends Controller
             'all_users'  => $all_users
         ]);
     }
-
+    /**
+     * ユーザープロフィール編集画面表示するメソッド
+     * 
+     * @params int $user
+     * 
+     * @return Illuminate\Http\Response;
+     */
     public function edit(User $user)
     {
         return view('users.edit', ['user' => $user]);
     }
-
+    /**
+     * ユーザープロフィール画面表示するメソッド
+     * 
+     * @params int $user,
+     * @params int $tweet,
+     * @params int $follower,
+     * 
+     * @return Illuminate\Http\Response;
+     */
     public function show(User $user, Tweet $tweet, Follower $follower)
     {
         $loginUser = auth()->user();
@@ -46,7 +67,14 @@ class UsersController extends Controller
             'followerCount'   => $followerCount
         ]);
     }
-
+    /**
+     * ユーザープロフィールを更新するメソッド
+     * 
+     * @params int $request
+     * @params int $user
+     * 
+     * @return Illuminate\Http\Response;
+     */
     public function update(UserRequest $request, User $user)
     {
         $data = $request->all();
@@ -54,8 +82,13 @@ class UsersController extends Controller
 
         return redirect()->route('users.update', $user->id);
     }
-
-    // フォロー
+    /**
+     * ユーザーをフォローするメソッド
+     * 
+     * @params int $user
+     * 
+     * @return Illuminate\Http\Response;
+     */
     public function follow(User $user)
     {
         $follower = auth()->user();
@@ -66,8 +99,13 @@ class UsersController extends Controller
             return back();
         }
     }
-
-    // フォロー解除
+    /**
+     * ユーザーをフォロー解除するメソッド
+     * 
+     * @params int $user
+     * 
+     * @return Illuminate\Http\Response;
+     */
     public function unfollow(User $user)
     {
         $follower = auth()->user();

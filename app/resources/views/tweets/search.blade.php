@@ -47,20 +47,6 @@
                             <div class="p-2 d-flex flex-column align-items-center">
                                 <img src="{{asset('storage/images/'.$followName->profile_image)}}" class="d-block rounded-circle mb-3" width="160" height="170">
                                 {{ $followName->name }}
-                                @if (auth()->user()->isFollowing($followName->id))
-                                <form action="{{ route('unfollow', $followName->id ) }}" method="POST">
-                                    {{ csrf_field() }}
-                                    {{ method_field('DELETE') }}
-
-                                    <button type="submit" class="btn btn-primary" data-toggle="tooltip" title="フォロー解除する">フォロー中</button>
-                                </form>
-                                @else
-                                <form action="{{ route('follow', $followName->id ) }}" method="POST">
-                                    {{ csrf_field() }}
-
-                                    <button type="submit" class="btn btn-primary">フォローする</button>
-                                </form>
-                                @endif
                             </div>
                             @endforeach
                         </div>
@@ -161,20 +147,6 @@
                             <div class="p-2 d-flex flex-column align-items-center">
                                 <img src="{{asset('storage/images/'.$followerName->profile_image)}}" class="d-block rounded-circle mb-3" width="160" height="170">
                                 {{ $followerName->name }}
-                                @if (auth()->user()->isFollowing($followerName->id))
-                                <form action="{{ route('unfollow', $followName->id ) }}" method="POST">
-                                    {{ csrf_field() }}
-                                    {{ method_field('DELETE') }}
-
-                                    <button type="submit" class="btn btn-primary" data-toggle="tooltip" title="フォロー解除する">フォロー中</button>
-                                </form>
-                                @else
-                                <form action="{{ route('follow', $followerName->id ) }}" method="POST">
-                                    {{ csrf_field() }}
-
-                                    <button type="submit" class="btn btn-primary">フォローする</button>
-                                </form>
-                                @endif
                             </div>
                             @endforeach
                         </div>
