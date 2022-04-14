@@ -64,7 +64,7 @@ class UsersController extends Controller
             'timeLines'      => $timeLines,
             'tweetCount'     => $tweetCount,
             'followCount'    => $followCount,
-            'followerCount'   => $followerCount
+            'followerCount'  => $followerCount
         ]);
     }
     /**
@@ -92,9 +92,9 @@ class UsersController extends Controller
     public function follow(User $user)
     {
         $follower = auth()->user();
-        $is_following = $follower->isFollowing($user->id);
+        $isFollowing = $follower->isFollowing($user->id);
 
-        if (!$is_following) {
+        if (!$isFollowing) {
             $follower->follow($user->id);
             return back();
         }
@@ -109,9 +109,9 @@ class UsersController extends Controller
     public function unfollow(User $user)
     {
         $follower = auth()->user();
-        $is_following = $follower->isFollowing($user->id);
+        $isFollowing = $follower->isFollowing($user->id);
 
-        if ($is_following) {
+        if ($isFollowing) {
             $follower->unfollow($user->id);
             return back();
         }

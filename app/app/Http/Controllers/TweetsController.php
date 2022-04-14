@@ -25,26 +25,25 @@ class TweetsController extends Controller
     {
         $user = auth()->user();
         // フォローしているユーザーID
-        $FollowIds = $follower->followingIds($user->id);
+        $followIds = $follower->followingIds($user->id);
         // followed_idだけ抜き出す
-        $FollowingIds =  $FollowIds->pluck('followed_id')->toArray();
-        $timeLines = $tweet->getTimelines($user->id, $FollowingIds);
+        $followingIds =  $followIds->pluck('followed_id')->toArray();
+        $timeLines = $tweet->getTimelines($user->id, $followingIds);
         $tweetCount = $tweet->getTweetCount($user->id);
         $followCount = $follower->getFollowCount($user->id);
         $followerCount = $follower->getFollowerCount($user->id);
         $all_users = $user->getAllUsers(auth()->user()->id);
         $followNames = auth()->user()->follows()->get();
         $followerNames = auth()->user()->followers()->get();
-
         return view('tweets.index', [
-            'user'      => $user,
-            'timeLines' => $timeLines,
+            'user'           => $user,
+            'timeLines'      => $timeLines,
             'tweetCount'     => $tweetCount,
             'followCount'    => $followCount,
-            'followerCount'   => $followerCount,
-            'all_users'  => $all_users,
-            'followNames'  => $followNames,
-            'followerNames' =>  $followerNames,
+            'followerCount'  => $followerCount,
+            'all_users'      => $all_users,
+            'followNames'    => $followNames,
+            'followerNames'  =>  $followerNames,
         ]);
     }
     /**
@@ -171,10 +170,10 @@ class TweetsController extends Controller
         $tweets = Tweet::where('text', 'like', "%{$request->search}%")->paginate(paginateConsts::DISPLAY_PER_PAGE_TWEET);
         $user = auth()->user();
         // フォローしているユーザーID
-        $FollowIds = $follower->followingIds($user->id);
+        $followIds = $follower->followingIds($user->id);
         // followed_idだけ抜き出す
-        $FollowingIds =  $FollowIds->pluck('followed_id')->toArray();
-        $timeLines = $tweet->getTimelines($user->id, $FollowingIds);
+        $followingIds =  $followIds->pluck('followed_id')->toArray();
+        $timeLines = $tweet->getTimelines($user->id, $followingIds);
         $tweetCount = $tweet->getTweetCount($user->id);
         $followCount = $follower->getFollowCount($user->id);
         $followerCount = $follower->getFollowerCount($user->id);
@@ -183,15 +182,15 @@ class TweetsController extends Controller
         $followerNames = auth()->user()->followers()->get();
 
         return view('tweets.search', [
-            'user'      => $user,
-            'timeLines' => $timeLines,
+            'user'           => $user,
+            'timeLines'      => $timeLines,
             'tweetCount'     => $tweetCount,
             'followCount'    => $followCount,
-            'followerCount'   => $followerCount,
-            'all_users'  => $all_users,
-            'followNames'  => $followNames,
-            'followerNames' =>  $followerNames,
-            'tweets' => $tweets,
+            'followerCount'  => $followerCount,
+            'all_users'      => $all_users,
+            'followNames'    => $followNames,
+            'followerNames'  => $followerNames,
+            'tweets'         => $tweets,
         ]);
     }
 }

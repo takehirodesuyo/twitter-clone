@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Consts\paginateConsts;
+use Illuminate\Support\Facades\Auth;
 
 class Tweet extends Model
 {
@@ -66,5 +67,10 @@ class Tweet extends Model
     public function getTweetByUserIdAndTweetId(Int $user_id, Int $tweet_id)
     {
         return $this->where('user_id', $user_id)->where('id', $tweet_id)->first();
+    }
+
+    public function getTweetByUserIdAndAuthId()
+    {
+        return $this->user_id === Auth::id();
     }
 }

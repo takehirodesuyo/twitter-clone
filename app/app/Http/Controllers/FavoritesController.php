@@ -10,25 +10,25 @@ class FavoritesController extends Controller
 {
     public function store(Request $request, Favorite $favorite)
     {
-        $user = auth()->user();
-        $tweet_id = $request->tweet_id;
-        $is_favorite = $favorite->isFavorite($user->id, $tweet_id);
+        $userId = auth()->id();
+        $tweetId = $request->tweet_id;
+        $isFavorite = $favorite->isFavorite($userId, $tweetId);
 
-        if (!$is_favorite) {
-            $favorite->storeFavorite($user->id, $tweet_id);
+        if (!$isFavorite) {
+            $favorite->storeFavorite($userId, $tweetId);
         }
         return back();
     }
 
     public function destroy(Favorite $favorite)
     {
-        $user_id = $favorite->user_id;
-        $tweet_id = $favorite->tweet_id;
-        $favorite_id = $favorite->id;
-        $is_favorite = $favorite->isFavorite($user_id, $tweet_id);
+        $userId = $favorite->user_id;
+        $tweetId = $favorite->tweet_id;
+        $favoriteId = $favorite->id;
+        $isFavorite = $favorite->isFavorite($userId, $tweetId);
 
-        if ($is_favorite) {
-            $favorite->destroyFavorite($favorite_id);
+        if ($isFavorite) {
+            $favorite->destroyFavorite($favoriteId);
         }
         return back();
     }

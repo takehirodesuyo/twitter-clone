@@ -61,7 +61,7 @@
                                     <div class="col-md-12 p-3 w-100 d-flex">
                                         <div class="ml-2 d-flex flex-column">
                                             <a href="{{ route('users.show', $user->id) }}" class="text-dark text-decoration-none">{{ $user->name }}</a>
-                                            <img src="{{asset('storage/images/' .$user->profile_image)}}" class="d-block rounded-circle mb-3" width="70" height="70">
+                                            <img src="{{asset('storage/images/' .$user->profile_image)}}" class="d-block rounded-circle mb-3" width="120" height="110">
 
                                         </div>
                                     </div>
@@ -123,7 +123,7 @@
                                             <p class="mb-0 text-secondary">{{ count($timeLine->favorites) }}</p>
                                         </div>
                                     </div>
-                                    @if ($timeLine->user->id === Auth::user()->id)
+                                    @if ($timeLine->getTweetByUserIdAndAuthId())
                                     <div class="d-flex align-items-center btn">
                                         <form method="POST" action="{{ route('tweets.destroy', $timeLine->id) }}" class="mb-0" onSubmit="return ThroughDblClick();">
                                             @csrf
