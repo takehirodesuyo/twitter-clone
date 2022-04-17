@@ -73,12 +73,13 @@ class TweetsController extends Controller
     {
         $filename = $request->imgpath->getClientOriginalName();
         $img = $request->imgpath->storeAs('', $filename, 'public');
+
         $user_id = auth()->id();
         $data = $request->all();
         $tweet->store($user_id, $data, $img);
 
         $tweet->save();
-        return redirect('tweets');
+        return redirect('tweets')->with('flash_message', '投稿されました！');
     }
     /**
      * 投稿詳細を表示するメソッド

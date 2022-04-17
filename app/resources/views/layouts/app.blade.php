@@ -55,7 +55,21 @@
                     @endif
                     @else
 
+                    <div>
+                        <p>ようこそ！</p>
+                        <p>今回はフェードインのご紹介！</p>
+                        <p>とは言っても簡単に実装できます。</p>
+                    </div>
+
+
+                    @if(session('flash_message'))
+                    <div class="alert alert-success">{{session('flash_message')}}</div>
+                    @endif
+
+
+
                     <div class="nav-item me-3 d-flex align-items-center">
+
                         <a class="text-dark text-decoration-none" href="{{ route('tweets.index') }}">ホーム</a>
                     </div>
                     <div class="nav-item me-3 d-flex align-items-center">

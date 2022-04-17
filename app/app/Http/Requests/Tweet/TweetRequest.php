@@ -25,7 +25,6 @@ class TweetRequest extends FormRequest
     {
         return [
             'text'     => ['required', 'string', 'max:100'],
-            'image' => 'required_without:picture_original|file|image:jpeg,png,jpg,gif|max:100000',
         ];
     }
 
