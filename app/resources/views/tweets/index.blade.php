@@ -13,6 +13,8 @@
         }
     }
 </script>
+<script src="{{ mix('js/hello.js') }}"></script>
+
 
 @section('content')
 <div class="container" style="background-color:#EDF7FF;">
@@ -86,6 +88,9 @@
                                 </div>
                             </form>
                         </div>
+                        <form>
+                            <input type="checkbox" id="myCheck" onmouseover="myFunction()" onclick="alert('click イベントが発生しました')">
+                        </form>
                         @if (isset($timeLines))
                         @foreach ($timeLines as $timeLine)
                         <div class="container">
@@ -98,7 +103,9 @@
                                     </div>
                                     {!! nl2br(e($timeLine->text)) !!}
                                     <!-- 写真 -->
+                                    @if (!$timeLine->getTweetImage())
                                     <img src="{{ '/storage/' . $timeLine['image'] }}" height="50%" width="100%">
+                                    @endif
                                     <div class="mr-3 d-flex align-items-center btn">
                                         <!-- コメント -->
                                         <a href="{{ route('tweets.show', $timeLine->id  ) }}"><img src="/images/comment.jpg" width="30" height="30"></a>

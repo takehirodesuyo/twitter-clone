@@ -19,7 +19,7 @@ return new class extends Migration
 
             $table->increments('id');
             $table->string('text')->nullable()->comment('本文');
-            $table->string('img_path');
+            $table->string('img_path')->nullabel();
             $table->timestamps();
             $table->index('id');
             $table->index('user_id');

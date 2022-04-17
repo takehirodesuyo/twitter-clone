@@ -53,7 +53,7 @@ class Tweet extends Model
         return $this->with('user')->where('id', $tweet_id)->first();
     }
 
-    public function store(Int $user_id, array $data, string $img)
+    public function store(Int $user_id, array $data, $img)
     {
         $this->user_id = $user_id;
         $this->text = $data['text'];
@@ -72,5 +72,10 @@ class Tweet extends Model
     public function getTweetByUserIdAndAuthId()
     {
         return $this->user_id === Auth::id();
+    }
+
+    public function getTweetImage()
+    {
+        return $this->image === null;
     }
 }

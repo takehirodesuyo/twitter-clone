@@ -71,13 +71,17 @@ class TweetsController extends Controller
 
     public function store(TweetRequest $request, Tweet $tweet)
     {
-        $filename = $request->imgpath->getClientOriginalName();
-        $img = $request->imgpath->storeAs('', $filename, 'public');
-
         $user_id = auth()->id();
         $data = $request->all();
-        $tweet->store($user_id, $data, $img);
 
+        if (isset($request->imgpath)) {
+            $filename = $request->imgpath->getClientOriginalName();
+            $img = $request->imgpath->storeAs('', $filename, 'public');
+        } else {
+            $img = null;
+        }
+
+        $tweet->store($user_id, $data, $img);
         $tweet->save();
         return redirect('tweets')->with('flash_message', '投稿されました！');
     }
@@ -192,6 +196,6 @@ class TweetsController extends Controller
             'followNames'    => $followNames,
             'followerNames'  => $followerNames,
             'tweets'         => $tweets,
-        ]);
+        ])->with('test', '投稿されました！');;
     }
 }

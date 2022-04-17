@@ -86,6 +86,9 @@
                         </div>
                         @if (isset($timeLines))
                         @foreach ($tweets as $tweet)
+                        <div class="mx-auto h4">
+                            {{ $tweet->text }}の検索結果
+                        </div>
                         <div class="container">
                             <div class="row">
                                 <div class="card">
@@ -94,6 +97,7 @@
                                         <a href="{{ route('users.show', $tweet->user_id) }}" class="text-dark text-decoration-none">{{ $tweet->user->name }}</a>
                                         <a class="mb-0 text-secondary text-decoration-none text-right">{{ $tweet->created_at->diffForHumans() }}</a>
                                     </div>
+
                                     {!! nl2br(e($tweet->text)) !!}
                                     <!-- 写真 -->
                                     <img src="{{ '/storage/' . $tweet['image'] }}" height="50%" width="100%">
