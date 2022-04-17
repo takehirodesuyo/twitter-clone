@@ -57,15 +57,15 @@
                         <div class="d-flex justify-content-end">
                             <div class="p-2 d-flex flex-column align-items-center">
                                 <p class="font-weight-bold">ツイート数</p>
-                                <span>{{ $tweetCount }}</span>
+                                <span class="text-primary font-weight-bold h3">{{ $tweetCount }}</span>
                             </div>
                             <div class="p-2 d-flex flex-column align-items-center">
                                 <p class="font-weight-bold">フォロー数</p>
-                                <span>{{ $followCount }}</span>
+                                <span class="text-primary font-weight-bold h3">{{ $followCount }}</span>
                             </div>
                             <div class="p-2 d-flex flex-column align-items-center">
                                 <p class="font-weight-bold">フォロワー数</p>
-                                <span>{{ $followerCount }}</span>
+                                <span class="text-primary font-weight-bold h3">{{ $followerCount }}</span>
                             </div>
                         </div>
                     </div>
@@ -73,15 +73,17 @@
             </div>
             @if (isset($timeLines))
             @foreach ($timeLines as $timeLine)
-            <div class="card mt-3">
+            <div class="card mt-2">
                 <div>
                     <img src="{{asset('storage/images/' .$timeLine->user->profile_image)}}" class="d-block rounded-circle mb-3" width="90" height="90">
-                    <a href="{{ route('users.show', $timeLine->user_id) }}" class="text-dark text-decoration-none">{{ $timeLine->user->name }}</a>
+                    <a href="{{ route('users.show', $timeLine->user_id) }}" class="text-dark text-decoration-none h5">{{ $timeLine->user->name }}</a>
                     <a class="mb-0 text-secondary text-decoration-none text-right">{{ $timeLine->created_at->diffForHumans() }}</a>
                 </div>
                 {!! nl2br(e($timeLine->text)) !!}
                 <!-- 写真 -->
-                <img src="{{ '/storage/' . $timeLine['image'] }}" height="50%" width="100%">
+                @if ($timeLine['image'])
+                <img src="{{ '/storage/' . $timeLine['image'] }}" height="40%" width="100%">
+                @endif
                 <div class="mr-3 d-flex align-items-center btn">
                     <!-- コメント -->
                     <a href="{{ route('tweets.show', $timeLine->id  ) }}"><img src="/images/comment.jpg" width="30" height="30"></a>
@@ -106,7 +108,7 @@
                         <p class="mb-0 text-secondary">{{ count($timeLine->favorites) }}</p>
                     </div>
                 </div>
-                @if ($timeLine->user->id === Auth::user()->id)
+                @if ($timeLine->getTweetByUserIdAndAuthId())
                 <div class="d-flex align-items-center btn">
                     <form method="POST" action="{{ route('tweets.destroy', $timeLine->id) }}" class="mb-0" onSubmit="return ThroughDblClick();">
                         @csrf

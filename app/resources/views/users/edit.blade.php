@@ -12,7 +12,6 @@
                         @csrf
                         @method('PUT')
 
-
                         <div class="form-group row">
                             <label for="name" class="col-md-4 col-form-label text-md-right">名前</label>
 

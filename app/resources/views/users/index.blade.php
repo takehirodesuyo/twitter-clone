@@ -1,5 +1,17 @@
 @extends('layouts.app')
+<script>
+    let dblClickFlag = null;
 
+    function ThroughDblClick() {
+        // ダブルクリック防止
+        if (dblClickFlag == null) {
+            dblClickFlag = 1;
+            return true;
+        } else {
+            return false;
+        }
+    }
+</script>
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
@@ -8,9 +20,8 @@
             <div class="card">
                 <div class="card-haeder p-3 w-100 d-flex">
                     <div class="ml-2 d-flex flex-column">
-                        <p class="mb-0">{{ $user->name }}</p>
+                        <a href="{{ route('users.show', $user->id) }}" class="text-secondary text-dark text-decoration-none">{{ $user->name }}</a>
                         <img src="{{asset('storage/images/'.$user->profile_image)}}" class="d-block rounded-circle mb-3" width="160" height="170">
-                        <a href="{{ url('users/' .$user->id) }}" class="text-secondary">プロフィール</a>
                     </div>
                     @if (auth()->user()->isFollowed($user->id))
                     <div class="px-2">
@@ -19,14 +30,14 @@
                     @endif
                     <div class="d-flex flex-grow-1">
                         @if (auth()->user()->isFollowing($user->id))
-                        <form action="{{ route('unfollow', $user->id ) }}" method="POST">
+                        <form action="{{ route('unfollow', $user->id ) }}" onSubmit="return ThroughDblClick();" method="POST">
                             {{ csrf_field() }}
                             {{ method_field('DELETE') }}
 
                             <button type="submit" class="btn btn-danger">フォロー解除</button>
                         </form>
                         @else
-                        <form action="{{ route('follow', $user->id ) }}" method="POST">
+                        <form action="{{ route('follow', $user->id ) }}" onSubmit="return ThroughDblClick();" method="POST">
                             {{ csrf_field() }}
 
                             <button type="submit" class="btn btn-primary">フォローする</button>

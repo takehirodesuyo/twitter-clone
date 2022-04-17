@@ -196,6 +196,6 @@ class TweetsController extends Controller
             'followNames'    => $followNames,
             'followerNames'  => $followerNames,
             'tweets'         => $tweets,
-        ])->with('test', '投稿されました！');;
+        ]);
     }
 }

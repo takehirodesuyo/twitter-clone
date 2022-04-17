@@ -20,6 +20,7 @@
             <div class="card">
                 <div class="card-haeder p-3 w-100 d-flex">
                     <div class="ml-2 d-flex flex-column">
+                        <img src="{{asset('storage/images/' .$tweet->user->profile_image)}}" class="d-block rounded-circle mb-3" width="90" height="90">
                         <p class="mb-0">{{ $tweet->user->name }}</p>
                     </div>
                     <div class="d-flex justify-content-end flex-grow-1">
@@ -30,7 +31,9 @@
                     {!! nl2br(e($tweet->text)) !!}
                 </div>
 
+                @if ($tweet['image'])
                 <img src="{{ '/storage/' . $tweet['image'] }}" height="50%" width="100%">
+                @endif
                 @if ($tweet->user->id === Auth::user()->id)
                 <div class="mr-3 d-flex align-items-center btn">
                     <form method="POST" action="{{ url('tweets/' .$tweet->id) }}" class="mb-0" onSubmit="return ThroughDblClick();">
@@ -53,6 +56,7 @@
                 <li class="list-group-item">
                     <div class="py-3 w-100 d-flex">
                         <div class="ml-2 d-flex flex-column">
+                            <img src="{{asset('storage/images/' .$comment->user->profile_image)}}" class="d-block rounded-circle mb-3" width="90" height="90">
                             <a href="{{ route('users.show' ,$comment->user->id) }}" class="text-secondary text-decoration-none">{{ $comment->user->name }}</a>
                         </div>
                         <div class="d-flex justify-content-end flex-grow-1">
@@ -64,9 +68,6 @@
                     </div>
                 </li>
                 @empty
-                <li class="list-group-item">
-                    <p class="mb-0 text-secondary">コメントはまだありません。</p>
-                </li>
                 @endforelse
                 <li class="list-group-item">
                     <div class="py-3">

@@ -23,19 +23,21 @@
                     <div class="card">
                         <div class="card-body">
                             <img src="{{asset('storage/images/' .$user->profile_image)}}" class="d-block rounded-circle mb-3" width="170" height="150">
-                            <a href="{{ route('users.show', $user->id) }}" class="text-dark text-decoration-none">{{ $user->name }}</a>
+                            <div class="d-flex justify-content-center">
+                                <a href="{{ route('users.show', $user->id) }}" class="text-dark text-decoration-none h4">{{ $user->name }}</a>
+                            </div>
                             <div class="d-flex justify-content-center">
                                 <div class="p-2 d-flex flex-column align-items-center">
                                     <p class="font-weight-bold">ツイート</p>
-                                    <span>{{ $tweetCount }}</span>
+                                    <span class="text-primary font-weight-bold h3">{{ $tweetCount }}</span>
                                 </div>
                                 <div class="p-2 d-flex flex-column align-items-center">
                                     <p class="font-weight-bold">フォロー</p>
-                                    <span>{{ $followCount }}</span>
+                                    <span class="text-primary font-weight-bold h3">{{ $followCount }}</span>
                                 </div>
                                 <div class="p-2 d-flex flex-column align-items-center">
                                     <p class="font-weight-bold">フォロワー</p>
-                                    <span>{{ $followerCount }}</span>
+                                    <span class="text-primary font-weight-bold h3">{{ $followerCount }}</span>
                                 </div>
                             </div>
                         </div>
@@ -57,14 +59,12 @@
                         <div class="card-body">
                             <form method="POST" action="{{ route('tweets.store') }}" enctype="multipart/form-data" onSubmit="return ThroughDblClick();">
                                 @csrf
-                                <div class="form-group row mb-0">
-                                    <div class="col-md-12 p-3 w-100 d-flex">
-                                        <div class="ml-2 d-flex flex-column">
-                                            <a href="{{ route('users.show', $user->id) }}" class="text-dark text-decoration-none">{{ $user->name }}</a>
-                                        </div>
+                                <div class="d-flex flex-row bd-highlight">
+                                    <div class="p-2 bd-highlight">
+                                        <img src="{{asset('storage/images/' .$user->profile_image)}}" class="d-block rounded-circle mb-3" width="70" height="70">
                                     </div>
-                                    <div class="col-md-12">
-                                        <textarea class="form-control @error('text') is-invalid @enderror" name="text" required autocomplete="text" rows="2">{{ old('text') }}</textarea>
+                                    <div class="col-md-9">
+                                        <textarea class="form-control @error('text') is-invalid @enderror" name="text" required autocomplete="text" rows="2" placeholder="いまどうしてる">{{ old('text') }}</textarea>
 
                                         @error('text')
                                         <span class="invalid-feedback" role="alert">
@@ -73,7 +73,6 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <!-- 画像登録 -->
                                 <input type="file" name="imgpath">
                                 <div class="form-group row mb-0">
                                     <div class="col-md-12 text-right">
@@ -82,25 +81,27 @@
                                         </button>
                                     </div>
                                 </div>
+
                             </form>
                         </div>
-                        @if (isset($timeLines))
                         @foreach ($tweets as $tweet)
                         <div class="mx-auto h4">
                             {{ $tweet->text }}の検索結果
                         </div>
                         <div class="container">
                             <div class="row">
-                                <div class="card">
+                                <div class="card mb-3">
                                     <div>
                                         <img src="{{asset('storage/images/' .$tweet->user->profile_image)}}" class="d-block rounded-circle mb-3" width="90" height="90">
-                                        <a href="{{ route('users.show', $tweet->user_id) }}" class="text-dark text-decoration-none">{{ $tweet->user->name }}</a>
+                                        <a href="{{ route('users.show', $tweet->user_id) }}" class="text-dark text-decoration-none h5">{{ $tweet->user->name }}</a>
                                         <a class="mb-0 text-secondary text-decoration-none text-right">{{ $tweet->created_at->diffForHumans() }}</a>
                                     </div>
 
                                     {!! nl2br(e($tweet->text)) !!}
                                     <!-- 写真 -->
+                                    @if ($tweet['image'])
                                     <img src="{{ '/storage/' . $tweet['image'] }}" height="50%" width="100%">
+                                    @endif
                                     <div class="mr-3 d-flex align-items-center btn">
                                         <!-- コメント -->
                                         <a href="{{ route('tweets.show', $tweet->id  ) }}"><img src="/images/comment.jpg" width="30" height="30"></a>
@@ -140,7 +141,6 @@
                             </div>
                         </div>
                         @endforeach
-                        @endif
                     </div>
                 </div>
                 <div class="col-md-3">

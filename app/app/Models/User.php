@@ -114,7 +114,7 @@ class User extends Authenticatable
     public function updateProfile(array $params)
     {
         if (isset($params['profile_image'])) {
-            $file_name = $params['profile_image']->store('public/profile_image/');
+            $file_name = $params['profile_image']->store('public/images');
 
             $this::where('id', $this->id)
                 ->update([
