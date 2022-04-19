@@ -2,11 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use App\Consts\paginateConsts;
 
 class User extends Authenticatable
 {
@@ -19,39 +19,67 @@ class User extends Authenticatable
      */
     // 可変項目
     protected $fillable = [
-        'screen_name',
         'name',
         'profile_image',
         'email',
         'password'
     ];
 
-    // フォローする
-    public function follow(Int $user_id) 
+    /**
+     * フォローするメソッド
+     * 
+     * @params int $user_id
+     * 
+     * @return int
+     */
+    public function follow(Int $user_id)
     {
         return $this->follows()->attach($user_id);
     }
 
-    // フォロー解除する
+    /**
+     * フォロー解除するメソッド
+     * 
+     * @params int $user_id
+     * 
+     * @return int
+     */
     public function unfollow(Int $user_id)
     {
         return $this->follows()->detach($user_id);
     }
-
-    // フォローしているか
-    public function isFollowing(Int $user_id) 
+    /**
+     * フォローしているか判定するメソッド
+     * 
+     * @params int $user_id
+     * 
+     * @return int
+     */
+    public function isFollowing(Int $user_id)
     {
-        return (boolean) $this->follows()->where('followed_id', $user_id)->first(['id']);
+        return $this->follows()->where('followed_id', $user_id)->exists();
     }
-
-    // フォローされているか
-    public function isFollowed(Int $user_id) 
+    /**
+     * フォローされているか判定するメソッド
+     * 
+     * @params int $user_id
+     * 
+     * @return int
+     */
+    public function isFollowed(Int $user_id)
     {
-        return (boolean) $this->followers()->where('following_id', $user_id)->first(['id']);
+        return $this->followers()->where('following_id', $user_id)->exists();
     }
+    /**
+     * ログインユーザー以外のユーザーIDを取得するメソッド
+     * 
+     * @params int $user_id
+     * 
+     * @return int
+     */
     public function getAllUsers(Int $user_id)
     {
-        return $this->Where('id', '<>', $user_id)->paginate(5);
+        return $this->Where('id', '<>', $user_id)->paginate(paginateConsts::DISPLAY_PER_PAGE_USER);
     }
 
     /**
@@ -73,25 +101,26 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    // follower1に対しユーザー多数
+    // 多対多
     public function followers()
     {
         return $this->belongsToMany(self::class, 'followers', 'followed_id', 'following_id');
     }
-    
+
     public function follows()
     {
         return $this->belongsToMany(self::class, 'followers', 'following_id', 'followed_id');
     }
 
-    public function updateProfile(Array $params)
+    public function updateProfile(array $params)
     {
-        // issetで値の判定
-        if (isset($params['name'])) {
+        if (isset($params['profile_image'])) {
+            $file_name = $params['profile_image']->store('public/images');
 
             $this::where('id', $this->id)
                 ->update([
                     'name'          => $params['name'],
+                    'profile_image' => basename($file_name),
                     'email'         => $params['email'],
                 ]);
         } else {
@@ -99,10 +128,9 @@ class User extends Authenticatable
                 ->update([
                     'name'          => $params['name'],
                     'email'         => $params['email'],
-                ]); 
+                ]);
         }
 
         return;
     }
-
 }

@@ -9,6 +9,10 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
+
+
+
+
 class RegisterController extends Controller
 {
     /*
@@ -53,6 +57,7 @@ class RegisterController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'profile_image' => ['required', 'image'],
         ]);
     }
 
@@ -64,10 +69,15 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $avatar = request()->file('profile_image')->getClientOriginalName();
+        request()->file('profile_image')->storeAs('public/images', $avatar);
+
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
+            'profile_image' => $avatar,
             'password' => Hash::make($data['password']),
         ]);
+        return $user;
     }
 }
