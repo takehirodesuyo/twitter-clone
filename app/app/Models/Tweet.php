@@ -74,3 +74,5 @@ class Tweet extends Model
         return $this->user_id === Auth::id();
     }
 }
+    
+}

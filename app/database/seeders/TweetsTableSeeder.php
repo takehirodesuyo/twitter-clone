@@ -23,4 +23,5 @@ class TweetsTableSeeder extends Seeder
             ]);
         }
     }
+    
 }
