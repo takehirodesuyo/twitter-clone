@@ -179,6 +179,9 @@ return [
         App\Providers\RouteServiceProvider::class,
 
     ],
+    'aliases'  => [
+        'Socialite' => 'Laravel\Socialite\Facades\Socialite',
+    ],
 
     /*
     |--------------------------------------------------------------------------
