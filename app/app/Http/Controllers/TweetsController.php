@@ -74,9 +74,9 @@ class TweetsController extends Controller
         $user_id = auth()->id();
         $data = $request->all();
 
-        if (isset($request->imgpath)) {
-            $filename = $request->imgpath->getClientOriginalName();
-            $img = $request->imgpath->storeAs('', $filename, 'public');
+        if (isset($request->img)) {
+            $filename = $request->img->getClientOriginalName();
+            $img = $request->img->storeAs('', $filename, 'public');
         } else {
             $img = null;
         }

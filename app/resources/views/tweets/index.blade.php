@@ -64,24 +64,20 @@
                                         <img src="{{asset('storage/images/' .$user->profile_image)}}" class="d-block rounded-circle mb-3" width="70" height="70">
                                     </div>
                                     <div class="col-md-9">
-                                        <textarea class="form-control @error('text') is-invalid @enderror" name="text" required autocomplete="text" rows="2" placeholder="いまどうしてる">{{ old('text') }}</textarea>
+                                        <textarea class="form-control" name="text" autocomplete="text" rows="2" placeholder="いまどうしてる"></textarea>
 
-                                        @error('text')
-                                        <span class="invalid-feedback" role="alert">
-                                            {{ $errors->first() }}
-                                        </span>
-                                        @enderror
+                                        <div class="text-danger">{{ $errors->first('text') }}</div>
                                     </div>
                                 </div>
-                                <input type="file" name="imgpath">
+                                <input type="file" name="img">
                                 <div class="form-group row mb-0">
                                     <div class="col-md-12 text-right">
                                         <button type="submit" class="btn btn-primary">
                                             ツイートする
                                         </button>
                                     </div>
+                                    <div class="text-danger">{{ $errors->first('img') }}</div>
                                 </div>
-
                             </form>
                         </div>
                         @if (isset($timeLines))
