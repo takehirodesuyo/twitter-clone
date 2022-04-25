@@ -11,6 +11,7 @@ services:
     working_dir: /var/www/app
     depends_on:
       - db
+      - mailhog
   db:
     # M1にはこのplatform必要
     platform: linux/x86_64
@@ -24,4 +25,9 @@ services:
       MYSQL_USER: user
       MYSQL_PASSWORD: pass
       MYSQL_ROOT_PASSWORD: rootpass
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+      - "1025:1025"
+      - "8025:8025"
       

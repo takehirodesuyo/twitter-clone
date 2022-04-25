@@ -30,6 +30,10 @@ Auth::routes();
 
 Route::group(['middleware' => 'auth'], function () {
 
+    Route::get('/test', function () {
+        return view('tweets.test');
+    });
+
     // ユーザー関連
     Route::resource('users', UsersController::class)->only([
         'index', 'show', 'edit', 'update'

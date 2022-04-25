@@ -22,7 +22,7 @@
                 <div class="col-md-4">
                     <div class="card">
                         <div class="card-body">
-                            <img src="{{asset('storage/images/' .$user->profile_image)}}" class="d-block rounded-circle mb-3" width="170" height="150">
+                            <a href="{{ route('users.show', $user->id) }}"><img src="{{asset('storage/images/' .$user->profile_image)}}" class="d-block rounded-circle mb-3" width="170" height="150"></a>
                             <div class="d-flex justify-content-center">
                                 <a href="{{ route('users.show', $user->id) }}" class="text-dark text-decoration-none h4">{{ $user->name }}</a>
                             </div>
@@ -47,7 +47,7 @@
                             <h2 class="card-title">フォロー中</h2>
                             @foreach ($followNames as $followName)
                             <div class="p-2 d-flex flex-column align-items-center">
-                                <img src="{{asset('storage/images/'.$followName->profile_image)}}" class="d-block rounded-circle mb-3" width="160" height="170">
+                                <a href="{{ route('users.show', $followName->id) }}"><img src="{{asset('storage/images/'.$followName->profile_image)}}" class="d-block rounded-circle mb-3" width="160" height="170"></a>
                                 <a href="{{ route('users.show', $followName->id) }}" class="text-dark text-decoration-none">{{ $followName->name }}</a>
                             </div>
                             @endforeach
@@ -61,7 +61,7 @@
                                 @csrf
                                 <div class="d-flex flex-row bd-highlight">
                                     <div class="p-2 bd-highlight">
-                                        <img src="{{asset('storage/images/' .$user->profile_image)}}" class="d-block rounded-circle mb-3" width="70" height="70">
+                                        <a href="{{ route('users.show', $user->id) }}"><img src="{{asset('storage/images/' .$user->profile_image)}}" class="d-block rounded-circle mb-3" width="70" height="70"></a>
                                     </div>
                                     <div class="col-md-9">
                                         <textarea class="form-control" name="text" autocomplete="text" rows="2" placeholder="いまどうしてる"></textarea>
@@ -86,7 +86,7 @@
                             <div class="row">
                                 <div class="card mb-3">
                                     <div>
-                                        <img src="{{asset('storage/images/' .$timeLine->user->profile_image)}}" class="d-block rounded-circle mb-3" width="90" height="90">
+                                        <a href="{{ route('users.show', $timeLine->user_id) }}"><img src="{{asset('storage/images/' .$timeLine->user->profile_image)}}" class="d-block rounded-circle mb-3" width="90" height="90"></a>
                                         <a href="{{ route('users.show', $timeLine->user_id) }}" class="text-dark text-decoration-none h5">{{ $timeLine->user->name }}</a>
                                         <a class="mb-0 text-secondary text-decoration-none text-right">{{ $timeLine->created_at->diffForHumans() }}</a>
                                     </div>
@@ -143,7 +143,7 @@
                             <h2 class="card-title">フォロワー</h2>
                             @foreach ($followerNames as $followerName)
                             <div class="p-2 d-flex flex-column align-items-center">
-                                <img src="{{asset('storage/images/'.$followerName->profile_image)}}" class="d-block rounded-circle mb-3" width="160" height="170">
+                                <a href="{{ route('users.show', $followerName->id) }}"><img src="{{asset('storage/images/'.$followerName->profile_image)}}" class="d-block rounded-circle mb-3" width="160" height="170"></a>
                                 <a href="{{ route('users.show', $followerName->id) }}" class="text-dark text-decoration-none">{{ $followerName->name }}</a>
                             </div>
                             @endforeach
