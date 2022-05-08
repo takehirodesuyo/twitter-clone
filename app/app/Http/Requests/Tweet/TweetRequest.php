@@ -24,16 +24,17 @@ class TweetRequest extends FormRequest
     public function rules()
     {
         return [
-            'text'     => ['required', 'string', 'max:100'],
+            'text'     => ['required', 'string', 'max:10'],
+            'img'    => ['file', 'mimes:jpg,png'],
         ];
     }
 
-    public function message()
+    public function messages()
     {
         return [
-            'text.required' => '名前は必ず入力してね',
-            'text.max' => '名前は必ず入力してね',
-            'image.mines' => '指定のファイル形式以外は添付できません。',
+            'text.required' => '必須項目',
+            'text.max' => '100文字以内',
+            'img.mimes' => 'jpg,png 指定のファイル形式以外は添付できません。',
         ];
     }
 }

@@ -14,12 +14,23 @@ return new class extends Migration
     public function up()
     {
         Schema::create('followers', function (Blueprint $table) {
+            $table->increments('id');
             $table->unsignedInteger('following_id')->comment('フォローしているユーザID');
             $table->unsignedInteger('followed_id')->comment('フォローされているユーザID');
 
+            $table->foreign('following_id')
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade');
+
+            $table->foreign('followed_id')
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade');
+
             $table->index('following_id');
             $table->index('followed_id');
-            // 同じid登録防いでる
+
             $table->unique([
                 'following_id',
                 'followed_id'
