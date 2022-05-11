@@ -2,14 +2,19 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Favorite extends Model
 {
+    protected $table = 'favorites';
+
     public $timestamps = false;
 
-    // いいねしているかどうかの判定処理
+    protected $fillable = [
+        'user_id',
+        'tweet_id',
+    ];
+
     public function isFavorite(Int $user_id, Int $tweet_id)
     {
         return (bool) $this->where('user_id', $user_id)->where('tweet_id', $tweet_id)->first();

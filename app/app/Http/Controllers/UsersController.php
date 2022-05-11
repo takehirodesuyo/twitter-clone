@@ -2,9 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
 use App\Http\Requests\User\UserRequest;
 use App\Models\User;
 use App\Models\Tweet;

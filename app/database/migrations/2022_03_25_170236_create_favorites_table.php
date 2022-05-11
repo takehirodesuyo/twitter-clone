@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('favorites', function (Blueprint $table) {
             $table->increments('id');
+            // 誰がいいねしたか、どの投稿にいいねしたか型の指定
             $table->unsignedInteger('user_id')->comment('ユーザID');
             $table->unsignedInteger('tweet_id')->comment('ツイートID');
 

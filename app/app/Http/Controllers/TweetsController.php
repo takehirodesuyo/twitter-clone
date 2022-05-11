@@ -157,7 +157,29 @@ class TweetsController extends Controller
         $tweet_id = $tweet->id;
         $tweet = Tweet::find($tweet_id);
         $tweet->delete();
-        return back();
+
+        return redirect('tweets')->with('delete_tweet', '削除されました！');
+    }
+    // いいね関連
+    public function like(Request $request, Tweet $tweet)
+    {
+        $tweet->likes()->detach($request->user()->id);
+        $tweet->likes()->attach($request->user()->id);
+
+        return [
+            'id' => $tweet->id,
+            'countLikes' => $tweet->count_likes,
+        ];
+    }
+
+    public function unlike(Request $request, Tweet $tweet)
+    {
+        $tweet->likes()->detach($request->user()->id);
+
+        return [
+            'id' => $tweet->id,
+            'countLikes' => $tweet->count_likes,
+        ];
     }
     /**
      * 検索結果を表示するメソッド
@@ -172,7 +194,13 @@ class TweetsController extends Controller
 
     public function search(Request $request, Tweet $tweet, Follower $follower, User $user)
     {
-        $tweets = Tweet::where('text', 'like', "%{$request->search}%")->paginate(paginateConsts::DISPLAY_PER_PAGE_TWEET);
+        $word = $request->search;
+
+        if (!is_null($word)) {
+            $tweets = Tweet::where('text', 'like', "%{$word}%")->paginate(paginateConsts::DISPLAY_PER_PAGE_TWEET);
+        } else {
+            return redirect(route('tweets.index'));
+        }
         $user = auth()->user();
         // フォローしているユーザーID
         $followIds = $follower->followingIds($user->id);

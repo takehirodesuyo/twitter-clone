@@ -14,6 +14,8 @@
     <script src="{{ asset('js/app.js') }}" defer>
     </script>
 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
 
@@ -55,6 +57,11 @@
                             {{ session('flash_message') }}
                         </div>
                         @endif
+                        @if (session('delete_tweet'))
+                        <div class="flash_message text-danger h3">
+                            {{ session('delete_tweet') }}
+                        </div>
+                        @endif
                     </div>
                     <div class="nav-item me-3 d-flex align-items-center">
                         <a class="text-dark text-decoration-none" href="{{ route('tweets.index') }}">ホーム</a>
@@ -75,7 +82,7 @@
                     <div class="me-5 justify-content-center">
                         <form action=" {{ route('tweets.search') }}" method="post">
                             {{ csrf_field() }}
-                            <input id="inputPassword5" class="form-control" aria-describedby="passwordHelpBlock" name="search" placeholder="キーワード検索" style="position:relative; top:20px;">
+                            <input id="inputPassword5" class="form-control" aria-describedby="passwordHelpBlock" name="search" placeholder="キーワード検索" value="{{ isset($word) ? $word : '' }}" style="position:relative; top:20px;">
                             <span class=" input-group-btn" style="position:relative; top:-18px;right:-186px">
                                 <button type="submit" class="btn btn-outline-primary">
                                     検索する

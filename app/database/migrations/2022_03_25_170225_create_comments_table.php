@@ -33,7 +33,9 @@ return new class extends Migration
 
             $table->foreign('tweet_id')
                 ->references('id')
-                ->on('tweets');
+                ->on('tweets')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
         });
     }
 
