@@ -3,6 +3,10 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use App\Exceptions\InvalidOrderException;
+use App\Exceptions\CustomException;
+
+
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -34,8 +38,8 @@ class Handler extends ExceptionHandler
      */
     public function register()
     {
-        $this->reportable(function (Throwable $e) {
-            //
+        $this->renderable(function (CustomException $e) {
+            return response()->view('tweets.index', [], 404);
         });
     }
 }

@@ -10,6 +10,7 @@ use App\Http\Controllers\CommentsController;
 use App\Http\Controllers\FavoritesController;
 use App\Http\Controllers\TweetsController;
 use App\Http\Controllers\UsersController;
+use App\Http\Controllers\SearchController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,10 +31,6 @@ Auth::routes();
 
 Route::group(['middleware' => 'auth'], function () {
 
-    Route::get('/test', function () {
-        return view('tweets.test');
-    });
-
     // ユーザー関連
     Route::resource('users', UsersController::class)->only([
         'index', 'show', 'edit', 'update'
@@ -52,5 +49,16 @@ Route::group(['middleware' => 'auth'], function () {
     // いいね関連
     Route::resource('favorites', FavoritesController::class);
 
+    Route::prefix('tweets')->name('tweets.')->group(function () {
+        Route::put('/{tweet}/like', [TweetsController::class, 'like'])->name('like');
+        Route::delete('/{tweet}/like', [TweetsController::class, 'unlike'])->name('unlike');
+    });
+
+    // 検索機能
+    Route::get('tweets/search', [TweetsController::class, 'search'])->name('tweets.get');
     Route::post('tweets/search', [TweetsController::class, 'search'])->name('tweets.search');
+
+    Route::fallback(function () {
+        return redirect('/tweets');
+    });
 });

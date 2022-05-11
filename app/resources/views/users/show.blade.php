@@ -89,24 +89,7 @@
                     <a href="{{ route('tweets.show', $timeLine->id  ) }}"><img src="/images/comment.jpg" width="30" height="30"></a>
                     <p class="mb-0 text-secondary">{{ count($timeLine->comments) }}</p>
                     <!-- いいね関連 -->
-                    <div class="d-flex align-items-center">
-                        @if (!in_array($user->id, array_column($timeLine->favorites->toArray(), 'user_id'), TRUE))
-                        <form method="POST" action="{{ url('favorites/') }}" class="mb-0">
-                            @csrf
 
-                            <input type="hidden" name="tweet_id" value="{{ $timeLine->id }}">
-                            <button type="submit" class="btn p-0 border-0 text-primary"><img src="/images/heart_1.png" width="30" height="30"><i class="far fa-heart fa-fw"></i></button>
-                        </form>
-                        @else
-                        <form method="POST" action="{{ url('favorites/' .array_column($timeLine->favorites->toArray(), 'id', 'user_id')[$user->id]) }}" class="mb-0">
-                            @csrf
-                            @method('DELETE')
-
-                            <button type="submit" class="btn p-0 border-0 text-danger"><img src="/images/heart_2.jpeg" width="30" height="30"></i></button>
-                        </form>
-                        @endif
-                        <p class="mb-0 text-secondary">{{ count($timeLine->favorites) }}</p>
-                    </div>
                 </div>
                 @if ($timeLine->getTweetByUserIdAndAuthId())
                 <div class="d-flex align-items-center btn">
