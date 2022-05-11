@@ -164,6 +164,7 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
+        Laravel\Socialite\SocialiteServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -180,7 +181,7 @@ return [
 
     ],
     'aliases'  => [
-        'Socialite' => 'Laravel\Socialite\Facades\Socialite',
+        'Socialite' => Laravel\Socialite\Facades\Socialite::class,
     ],
 
     /*

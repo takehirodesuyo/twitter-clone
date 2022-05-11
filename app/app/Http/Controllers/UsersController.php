@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Tweet;
 use App\Models\Follower;
 
+
 class UsersController extends Controller
 {
     /**
