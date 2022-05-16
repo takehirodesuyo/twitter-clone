@@ -72,7 +72,11 @@
                     @endif
                 </div>
             </div>
+
         </form>
+        <a href="{{ route('login.{provider}', ['provider' => 'google']) }}" class="btn btn-block btn-danger">
+            <i class="fab fa-google mr-1"></i>Googleでログイン
+        </a>
     </div>
 </div>
 @endsection
