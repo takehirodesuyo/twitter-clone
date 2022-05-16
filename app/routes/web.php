@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\GoogleRegisterController;
+use App\Http\Controllers\Auth\RegisterController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Requests\Comment\CommentRequest;
@@ -28,6 +31,16 @@ Route::get('/', function () {
 });
 
 Auth::routes();
+Route::prefix('login')->name('login.')->group(function () {
+    Route::get('/{provider}', [LoginController::class, 'redirectToProvider'])->name('{provider}');
+    Route::get('/{provider}/callback', [LoginController::class, 'handleProviderCallback'])->name('{provider}.callback');
+});
+
+// google
+Route::prefix('register')->name('register.')->group(function () {
+    Route::get('/{provider}', [GoogleRegisterController::class, 'showProviderUserRegistrationForm'])->name('{provider}');
+    Route::post('/{provider}', [GoogleRegisterController::class, 'registerProviderUser'])->name('{provider}');
+});
 
 Route::group(['middleware' => 'auth'], function () {
 
@@ -58,7 +71,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('tweets/search', [TweetsController::class, 'search'])->name('tweets.get');
     Route::post('tweets/search', [TweetsController::class, 'search'])->name('tweets.search');
 
-    Route::fallback(function () {
-        return redirect('/tweets');
-    });
+    // Route::fallback(function () {
+    //     return redirect('/');
+    // });
 });
