@@ -7,6 +7,7 @@ use App\Http\Requests\Register\RegisterRequest;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 // use Laravel\Socialite\Facades\Socialite;
 use Socialite;
