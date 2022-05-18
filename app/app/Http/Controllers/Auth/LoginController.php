@@ -52,7 +52,7 @@ class LoginController extends Controller
             return $this->sendLoginResponse($request);
         }
 
-        return redirect()->route('register.{provider}', [
+        return redirect()->route('register.{googleapi}', [
             'provider' => $provider,
             'email' => $providerUser->getEmail(),
             'token' => $providerUser->token,
