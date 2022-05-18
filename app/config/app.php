@@ -163,7 +163,6 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
-        Laravel\Socialite\SocialiteServiceProvider::class,
         /*
          * Package Service Providers...
          */
@@ -189,8 +188,6 @@ return [
     |
     */
 
-    'aliases' => Facade::defaultAliases()->merge([
-        'Socialite' => Laravel\Socialite\Facades\Socialite::class,
-    ])->toArray(),
+    'aliases' => Facade::defaultAliases()->merge([])->toArray(),
 
 ];
