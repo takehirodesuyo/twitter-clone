@@ -32,13 +32,13 @@ Route::get('/', function () {
 
 Auth::routes();
 Route::prefix('login')->name('login.')->group(function () {
-    Route::get('/{provider}', [LoginController::class, 'redirectToProvider'])->name('{provider}');
+    Route::get('/{provider}', [LoginController::class, 'redirectToProvider'])->name('{api}');
     Route::get('/{provider}/callback', [LoginController::class, 'handleProviderCallback'])->name('{provider}.callback');
 });
 
 // google
 Route::prefix('register')->name('register.')->group(function () {
-    Route::get('/{provider}', [GoogleRegisterController::class, 'showProviderUserRegistrationForm'])->name('{provider}');
+    Route::get('/{provider}', [GoogleRegisterController::class, 'showProviderUserRegistrationForm'])->name('{googleapi}');
     Route::post('/{provider}', [GoogleRegisterController::class, 'registerProviderUser'])->name('{provider}');
 });
 
