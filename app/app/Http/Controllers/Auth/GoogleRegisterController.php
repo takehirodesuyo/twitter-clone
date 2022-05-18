@@ -10,7 +10,6 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 // use Laravel\Socialite\Facades\Socialite;
 use Socialite;
-//コメントアウト
 
 
 class GoogleRegisterController extends Controller
